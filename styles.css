@@ -8,7 +8,7 @@ header {
 }
 
 /* header P only displays when canvas z index changes to 1 */
-header p {
+.instructions {
     margin-top: 0;
     display: none
 }
@@ -28,7 +28,7 @@ main {
 /* z index will swit between 1 and 0 */
 .title_screen {
     position: absolute;
-    z-index: 1;
+    z-index: 0;
     background-color: black;
     display:flex;
     justify-content: center;
@@ -41,7 +41,7 @@ main {
 /* z index will swit between 1 and 0 */
 .canvas {
     Position: absolute;
-    z-index: 0;
+    z-index: 1;
     border: solid;
     height: 45rem;
     width: 80rem;

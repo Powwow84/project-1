@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <title>Maize Runner</title>
         <link href="styles.css" rel="stylesheet">
+        <script src="./js/maps.js" defer></script>
         <script src="./js/scripts.js" defer></script>
-        <script src="./js/maps.js"></script>
     </head>
     <header>
         <h1>Maize Runner</h1>
+        <div><p id="movement"></p></div>
         <!-- header will be present at all times -->
         <!-- p element will only be visible when the maze has rendered -->
-        <p>Navigate the maize and find the exit with the arrow keys</p>
+        <p class="instructions">Navigate the maize and find the exit with the arrow keys</p>
     </header>
     <main>
         <!-- title screen will have a z index of 1 or 0 -->
         <section class="title_screen" id="titleScreen">
-        <button class="play">Play Game</button>
+            <button class="play">Play Game</button>
         </section>
         <!-- canvas will have a z index of either 1 or 0  -->
-        <section class="canvas" id="canvas">
-            <h1>canvas</h1>
-        </section>
+        <canvas class="canvas" id="canvas"><canvas>
     </main>
 </html>
