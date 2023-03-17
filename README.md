@@ -13,5 +13,5 @@ Maize Runner is a thrilling game where your mission is to locate the exit before
 
 ## Wireframe
 ------------------------------------------------------------------------
-!(https://i.imgur.com/k9IzCpR.png)
+![Imgur](https://i.imgur.com/k9IzCpR.png)
 ------------------------------------------------------------------------
