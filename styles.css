@@ -1,0 +1,57 @@
+/* styling for the header elements */
+
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* header P only displays when canvas z index changes to 1 */
+header p {
+    margin-top: 0;
+    display: none
+}
+
+header h1 {
+    margin-bottom: .5rem;
+}
+
+/* Styling for the main section */
+
+main {
+    display: flex;
+    justify-content: center;
+    position: relative
+}
+
+/* z index will swit between 1 and 0 */
+.title_screen {
+    position: absolute;
+    z-index: 1;
+    background-color: black;
+    display:flex;
+    justify-content: center;
+    align-items: flex-end;
+    border: solid;
+    height: 45rem;
+    width: 80rem;
+}
+
+/* z index will swit between 1 and 0 */
+.canvas {
+    Position: absolute;
+    z-index: 0;
+    border: solid;
+    height: 45rem;
+    width: 80rem;
+    background-color: white;
+}
+
+.play {
+    position:absolute;
+    margin: 1rem;
+    height: 2rem;
+    width: 10rem;
+    font-size: 1rem;
+}
