@@ -38,6 +38,6 @@ const mazeArray = [
 ]
 
 
-let mobNames =["mob1", "mob2" , "Mob3,","mob4", "mob5" , "Mob6", "mob7", "mob8" , "Mob9,","mob10", "mob11", "mob12" , "Mob13,","mob44", "mob15", "Mob16", "mob17", "mob18" , "Mob19,","mob20", "mob21", "mob22" , "Mob23,","mob24", "mob25" , "Mob26", "mob27", "mob28" , "Mob29,","mob30", "mob1", "mob2" , "Mob3,","mob4", "mob5" , "Mob6", "mob7", "mob8" , "Mob9,","mob10", "mob1", "mob2" , "Mob3,","mob4", "mob5" , "Mob6", "mob7", "mob8" , "Mob9,","mob10", "mob1", "mob2" , "Mob3,","mob4", "mob5" , "Mob6", "mob7", "mob8" , "Mob9,","mob10",]
+let mobNames =["mob1", "mob2" , "Mob3,","mob4", "mob5" , "Mob6", "mob7", "mob8" , "Mob9,","mob10", "mob11", "mob12" , "Mob13,","mob44", "mob15", "Mob16", "mob17", "mob18" , "Mob19,","mob20", "mob21", "mob22" , "Mob23,","mob24", "mob25" , "Mob26", "mob27", "mob28" , "Mob29,","mob30", "mob31", "mob32" , "Mob33,","mob34", "mob35" , "Mob36", "mob37", "mob38" , "Mob39,","mob40", "mob41", "mob42" , "Mob43,","mob44", "mob45" , "Mob46", "mob47", "mob48" , "Mob49,","mob50"]
 
 

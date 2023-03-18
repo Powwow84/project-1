@@ -67,7 +67,7 @@ function randomY() {
 }
 console.log(randomY())
 
-// checks to see if the next spot the user moves to is a wall or not
+// // checks to see if the next spot the user moves to is a wall or not
 function isValidMove(x, y) {
     const arrayX = Math.floor(x / 20);
     const arrayY = Math.floor(y / 20);
@@ -78,14 +78,17 @@ function isValidMove(x, y) {
     }
 }
 
-for (let i = 0 ; mobs < 50 ; i++) {
-    let x = randomX
-    let y = randomY
+
+
+for (let i = 0 ; i < mobNames.length ; i++) {
+    let x = randomX()
+    let y = randomY()
     if(isValidMove(x,y)) {
-        
+        mobNames[i] = new Crawler(x,y, 20, 20, 'red')
+        mobNames[i].render()
     }
 }
-
+console.log(mobNames)
 
 
 
