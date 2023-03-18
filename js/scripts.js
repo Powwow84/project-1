@@ -3,7 +3,7 @@ const movement = document.querySelector('#movement')
 const canvas = document.querySelector('canvas')
 const ctx = canvas.getContext("2d")
 
-// canvas
+// canvas display
 
 canvas.setAttribute('height', getComputedStyle(canvas).height)
 canvas.setAttribute('width', getComputedStyle(canvas).width)
@@ -13,7 +13,7 @@ function renderMaze(ctx, mazeArray) {
       for (let j = 0; j < mazeArray[i].length; j++) {
         ctx.beginPath();
   
-        ctx.rect(j * 10, i * 10, 10, 10)
+        ctx.rect(j * 20, i * 20, 20, 20)
   
         ctx.fillStyle = mazeArray[i][j] === 0 ? '#F7F1E5' : '#898121';
         ctx.fill();
@@ -47,36 +47,54 @@ document.addEventListener('keydown', handleKeyPressEvent)
 
 // game objects
 
-const hero = new Crawler(10, 10, 10, 10, 'blue')
+const hero = new Crawler(20, 20, 20, 20, 'blue')
 hero.render()
 
+function isValidMove(x, y) {
+    const arrayX = Math.floor(x / 20);
+    const arrayY = Math.floor(y / 20);
+
+    if (mazeArray[arrayY] && mazeArray[arrayY][arrayX] === 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 function handleKeyPressEvent(e) {
-    const speed = 10
+    const speed = 20;
     let prevX = hero.x;
     let prevY = hero.y;
+    let newX = hero.x;
+    let newY = hero.y;
 
-    switch(e.key) {
+    switch (e.key) {
         case "w":
-        case "ArrowUp" :
-            hero.y -= speed
+        case "ArrowUp":
+            newY -= speed;
             break;
-        case "s" :
-        case "ArrowDown" :
-            hero.y += speed
+        case "s":
+        case "ArrowDown":
+            newY += speed;
             break;
-         case "a" :   
-         case "ArrowLeft" :
-            hero.x -= speed
+        case "a":
+        case "ArrowLeft":
+            newX -= speed;
             break;
-         case "d":   
-         case "ArrowRight" :
-            hero.x += speed
-            break; 
+        case "d":
+        case "ArrowRight":
+            newX += speed;
+            break;
     }
-    movement.innerText = `x: ${hero.x} y: ${hero.y}`
-    ctx.fillStyle = '#F7F1E5';
-    ctx.fillRect(prevX, prevY, hero.width, hero.height);
-    hero.render()
+
+    if (isValidMove(newX, newY)) {
+        hero.x = newX;
+        hero.y = newY;
+        movement.innerText = `x: ${hero.x} y: ${hero.y}`;
+        ctx.fillStyle = '#F7F1E5';
+        ctx.fillRect(prevX, prevY, hero.width, hero.height);
+        hero.render();
+    }
 }
+
 
