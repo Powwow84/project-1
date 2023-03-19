@@ -1,7 +1,8 @@
 // selectors
 const movement = document.querySelector('#movement')
 const clock = document.querySelector('#clock')
-console.log(clock)
+const infoScreen = document.querySelector('#infoScreen')
+const pButton = document.querySelector('#pButton')
 const canvas = document.querySelector('canvas')
 const ctx = canvas.getContext("2d")
 
@@ -53,22 +54,7 @@ goal.render()
 
 
 // FUNCTIONS*********
-
-// creates and starts timer
-
-let timeLeft = 60
-const timer = setInterval(function(){
-    timeLeft--
-    clock.innerText = `You have ${timeLeft} seconds left`
-    if(timeLeft < 0) {
-        clearInterval(timer)
-        clock.innerHTML = "You're dead"
-    }
-}, 1000)
-
-
-console.log(timeLeft)
-
+    
 // generates a random x and Y which we use to randomly spawn our objects
 
 function randomX() {
@@ -95,19 +81,17 @@ function isValidMove(x, y) {
 }
 
 // this generates random mobs on the map using the random x and y functions
-
-for (let i = 0 ; i < mobNames.length ; i++) {
-    let x = randomX()
-    let y = randomY()
-    if(isValidMove(x,y)) {
-        mobNames[i] = new Crawler(x,y, 20, 20, 'red')
-        mobNames[i].render()
+let createMobs = () => {
+    for (let i = 0 ; i < mobNames.length ; i++) {
+        mobNames[i] = ''
+        let x = randomX()
+        let y = randomY()
+        if(isValidMove(x,y)) {
+            mobNames[i] = new Crawler(x,y, 20, 20, '#F7F1E5')
+            mobNames[i].render()
+        }
     }
 }
-console.log(mobNames)
-
-
-
 
 // detects key strokes and moves the character if the move is valid. this came from the lesson for canvas from GA instructor Bailey. Add function to check for a valid move based on the maze array
 document.addEventListener('keydown', handleKeyPressEvent)
@@ -147,6 +131,30 @@ function handleKeyPressEvent(e) {
         hero.render();
     }
 }
+
+// creates and starts timer on button click
+let timeLeft = 60
+
+pButton.addEventListener('click', function(){
+    const timer = setInterval(function(){
+        timeLeft--
+        clock.innerText = `You have ${timeLeft} seconds`
+        if(timeLeft < 0) {
+            clearInterval(timer)
+            infoScreen.style.zIndex = "2"
+            clock.innerHTML = "You're dead"
+        } else if (isColliding(hero, goal)) {
+            clearInterval(timer)
+            infoScreen.style.zIndex = "2"
+            clock.innerHTML = "Life is fleeting, don't waste a second"
+        }
+    }, 1000)
+    createMobs()
+    infoScreen.style.zIndex = "0"
+    timeLeft = 60
+})
+
+
 
 // gameloop to detect if two game objects occupy the same space 
 function isColliding(crawler1, crawler2) {

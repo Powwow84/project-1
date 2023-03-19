@@ -7,7 +7,7 @@ header {
     align-items: center;
 }
 
-/* header P only displays when canvas z index changes to 1 */
+/* .instructions only displays when canvas z index changes to 1 */
 .instructions {
     margin-top: 0;
     display: none
@@ -26,9 +26,9 @@ main {
 }
 
 /* z index will swit between 1 and 0 */
-.title_screen {
+.info_screen {
     position: absolute;
-    z-index: 0;
+    z-index: 2;
     background-color: black;
     display:flex;
     justify-content: center;

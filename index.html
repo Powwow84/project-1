@@ -10,7 +10,7 @@
         <h1>Maize Runner</h1>
         <div>
             <p id="movement"></p>
-            <p id="clock"></p>
+            <p class="clock" id="clock">You have 60 second</p>
         </div>
         <!-- header will be present at all times -->
         <!-- p element will only be visible when the maze has rendered -->
@@ -18,8 +18,8 @@
     </header>
     <main>
         <!-- title screen will have a z index of 1 or 0 -->
-        <section class="title_screen" id="titleScreen">
-            <button class="play">Play Game</button>
+        <section class="info_screen" id="infoScreen">
+            <button class="play" id="pButton">Play Game</button>
         </section>
         <!-- canvas will have a z index of either 1 or 0  -->
         <canvas class="canvas" id="canvas"><canvas>
