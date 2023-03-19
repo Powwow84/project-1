@@ -14,6 +14,9 @@ canvas.setAttribute('width', getComputedStyle(canvas).width)
 
 // render map function, this generates the maze according to the 2d Array added as a argument
 
+// creates and starts timer on button click
+let timeLeft = 60
+
 function renderMaze(ctx, mazeArray) {
     for (let i = 0; i < mazeArray.length; i++) {
         for (let j = 0; j < mazeArray[i].length; j++) {
@@ -47,11 +50,6 @@ class Crawler {
 
 // game objects, this came from the lesson for canvas from GA instructor Bailey 
 
-const hero = new Crawler(20, 20, 20, 20, 'blue')
-const goal = new Crawler(400, 400, 20, 20, 'green')
-hero.render()
-goal.render()
-
 
 // FUNCTIONS*********
     
@@ -80,8 +78,41 @@ function isValidMove(x, y) {
     }
 }
 
+// this creates a random spawn for the hero and the goal
+let hero = new Crawler(20, 20, 20, 20, 'pink')
+
+const createHero =() => {
+    ctx.fillStyle = '#F7F1E5'
+    ctx.fillRect(hero.x, hero.y, 20, 20)
+    hero = ''
+    let x = randomX()
+    let y = randomY()
+    if(isValidMove(x,y)) {
+        hero = new Crawler(x,y, 20, 20, 'pink')
+        hero.render()
+    }
+       
+}
+
+
+
+let goal = new Crawler(1240, 20, 20, 20, 'pink')
+
+const createGoal =() => {
+    ctx.fillStyle = '#F7F1E5'
+    ctx.fillRect(goal.x, goal.y, 20, 20)
+    goal = ''
+    let x = randomX()
+    let y = randomY()
+    if(isValidMove(x,y)) {   
+        goal = new Crawler(x,y, 20, 20, 'green')
+        goal.render()
+    }
+       
+}
+
 // this generates random mobs on the map using the random x and y functions
-let createMobs = () => {
+const createMobs = () => {
     for (let i = 0 ; i < mobNames.length ; i++) {
         mobNames[i] = ''
         let x = randomX()
@@ -92,6 +123,30 @@ let createMobs = () => {
         }
     }
 }
+
+
+//On click starts timer + Creates hero/goal/mobs
+
+pButton.addEventListener('click', function(){
+    const timer = setInterval(function(){
+        timeLeft--
+        clock.innerText = `You have ${timeLeft} seconds`
+        if(timeLeft < 0) {
+            clearInterval(timer)
+            infoScreen.style.zIndex = "2"
+            clock.innerHTML = "You're dead"
+        } else if (isColliding(hero, goal)) {
+            clearInterval(timer)
+            infoScreen.style.zIndex = "2"
+            clock.innerHTML = "Life is fleeting, don't waste a second"
+        }
+    }, 1000)
+    createHero()
+    createGoal()
+    createMobs()
+    infoScreen.style.zIndex = "0"
+    timeLeft = 60
+})
 
 // detects key strokes and moves the character if the move is valid. this came from the lesson for canvas from GA instructor Bailey. Add function to check for a valid move based on the maze array
 document.addEventListener('keydown', handleKeyPressEvent)
@@ -123,45 +178,22 @@ function handleKeyPressEvent(e) {
     }
 
     if (isValidMove(newX, newY)) {
-        hero.x = newX;
-        hero.y = newY;
-        movement.innerText = `x: ${hero.x} y: ${hero.y}`;
-        ctx.fillStyle = '#F7F1E5';
-        ctx.fillRect(prevX, prevY, hero.width, hero.height);
-        hero.render();
+        hero.x = newX
+        hero.y = newY
+        movement.innerText = `x: ${hero.x} y: ${hero.y}`
+        ctx.fillStyle = '#F7F1E5'
+        ctx.fillRect(prevX, prevY, hero.width, hero.height)
+        goal.render()
+        hero.render()
     }
 }
-
-// creates and starts timer on button click
-let timeLeft = 60
-
-pButton.addEventListener('click', function(){
-    const timer = setInterval(function(){
-        timeLeft--
-        clock.innerText = `You have ${timeLeft} seconds`
-        if(timeLeft < 0) {
-            clearInterval(timer)
-            infoScreen.style.zIndex = "2"
-            clock.innerHTML = "You're dead"
-        } else if (isColliding(hero, goal)) {
-            clearInterval(timer)
-            infoScreen.style.zIndex = "2"
-            clock.innerHTML = "Life is fleeting, don't waste a second"
-        }
-    }, 1000)
-    createMobs()
-    infoScreen.style.zIndex = "0"
-    timeLeft = 60
-})
-
-
 
 // gameloop to detect if two game objects occupy the same space 
 function isColliding(crawler1, crawler2) {
     return crawler1.x === crawler2.x && crawler1.y === crawler2.y;
 }
 
-const gameLoopInterval = setInterval(gameLoop, 60)
+const gameLoopInterval = setInterval(gameLoop, 30)
 function gameLoop() {
     if (isColliding(hero, goal)) {
         console.log("You're pretty clever");
