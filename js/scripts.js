@@ -1,14 +1,17 @@
 // selectors
 const movement = document.querySelector('#movement')
+const clock = document.querySelector('#clock')
+console.log(clock)
 const canvas = document.querySelector('canvas')
 const ctx = canvas.getContext("2d")
+
 
 // canvas display
 
 canvas.setAttribute('height', getComputedStyle(canvas).height)
 canvas.setAttribute('width', getComputedStyle(canvas).width)
 
-// render map function
+// render map function, this generates the maze according to the 2d Array added as a argument
 
 function renderMaze(ctx, mazeArray) {
     for (let i = 0; i < mazeArray.length; i++) {
@@ -24,7 +27,7 @@ function renderMaze(ctx, mazeArray) {
 
 renderMaze(ctx, mazeArray)
 
-// game objects prototype
+// game objects prototype, this came from the lesson for canvas from GA instructor Bailey
 
 class Crawler {
     constructor(x, y, width, height, color) {
@@ -41,19 +44,32 @@ class Crawler {
     }  
 }
 
-// game objects
+// game objects, this came from the lesson for canvas from GA instructor Bailey 
 
 const hero = new Crawler(20, 20, 20, 20, 'blue')
 const goal = new Crawler(400, 400, 20, 20, 'green')
-const mob = new Crawler(200,200, 20, 20, 'purple')
 hero.render()
 goal.render()
-mob.render()
 
-let mobs = 0
+
 // FUNCTIONS*********
 
-// generates a random x and Y which we use to randomly spawn mobs
+// creates and starts timer
+
+let timeLeft = 60
+const timer = setInterval(function(){
+    timeLeft--
+    clock.innerText = `You have ${timeLeft} seconds left`
+    if(timeLeft < 0) {
+        clearInterval(timer)
+        clock.innerHTML = "You're dead"
+    }
+}, 1000)
+
+
+console.log(timeLeft)
+
+// generates a random x and Y which we use to randomly spawn our objects
 
 function randomX() {
     const randomMultiple = Math.floor(Math.random() * (62) + 1);
@@ -67,7 +83,7 @@ function randomY() {
 }
 console.log(randomY())
 
-// // checks to see if the next spot the user moves to is a wall or not
+// // checks to see if a block is a 1 or 0 in the mapArray
 function isValidMove(x, y) {
     const arrayX = Math.floor(x / 20);
     const arrayY = Math.floor(y / 20);
@@ -78,7 +94,7 @@ function isValidMove(x, y) {
     }
 }
 
-
+// this generates random mobs on the map using the random x and y functions
 
 for (let i = 0 ; i < mobNames.length ; i++) {
     let x = randomX()
@@ -93,7 +109,7 @@ console.log(mobNames)
 
 
 
-// detects key strokes and moves the character if the move is valid
+// detects key strokes and moves the character if the move is valid. this came from the lesson for canvas from GA instructor Bailey. Add function to check for a valid move based on the maze array
 document.addEventListener('keydown', handleKeyPressEvent)
 
 function handleKeyPressEvent(e) {
@@ -132,12 +148,22 @@ function handleKeyPressEvent(e) {
     }
 }
 
-// gameloop to detect if two crawlers occupy the same space
+// gameloop to detect if two game objects occupy the same space 
+function isColliding(crawler1, crawler2) {
+    return crawler1.x === crawler2.x && crawler1.y === crawler2.y;
+}
+
 const gameLoopInterval = setInterval(gameLoop, 60)
 function gameLoop() {
-    if(goal.x === hero.x && goal.y === hero.y) {
-       console.log("your pretty clever")
-    }else if (mob.x === hero.x && mob.y === hero.y) {
-        console.log("endgame baby")
+    if (isColliding(hero, goal)) {
+        console.log("You're pretty clever");
+    } else {
+        for (let i = 0; i < mobNames.length; i++) {
+            if (isColliding(hero, mobNames[i])) {
+                console.log("Endgame, baby");
+                break;
+            }
+        }
     }
 }
+
