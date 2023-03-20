@@ -116,7 +116,7 @@ const createGoal =() => {
 const createMobs = () => {
     let numberOfMobs = 0;
     mobNames = []
-    while (numberOfMobs < 40) {
+    while (numberOfMobs < 50) {
         let x = randomX();
         let y = randomY();
 
@@ -140,6 +140,10 @@ pButton.addEventListener('click', function(){
             clearInterval(timer)
             infoScreen.style.zIndex = "2"
             clock.innerHTML = "You're dead"
+        } else if (isColliding(hero, goal)) {
+            clearInterval(timer)
+            infoScreen.style.zIndex = "2"
+            clock.innerHTML = "Life is fleeting, don't waste a second"
         }
     }, 1000)
     renderMaze(ctx, mazeArray)
