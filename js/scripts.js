@@ -133,22 +133,21 @@ const createMobs = () => {
 
 // On click starts timer + Creates hero/goal/mobs
 let timeLeft = 60
-
-pButton.addEventListener('click', function(){
-    const timer = setInterval(function(){
-        timeLeft--
+const timer = () => {
+    setInterval(function(){
+        timeLeft --
         clock.innerText = `You have ${timeLeft} seconds`
         if(timeLeft < 0) {
             clearInterval(timer)
             infoScreen.style.zIndex = "3"
-            clock.innerHTML = "You're dead"
-        } else if (isColliding(hero, goal)) {
-            clearInterval(timer)
-            infoScreen.style.zIndex = "3"
-            clock.innerHTML = "Life is fleeting, don't waste a second"
+            clock.innerHTML = "You're dead"     
         }
-    }, 1000)
+    },1000)
+}
 
+
+pButton.addEventListener('click', function(){
+    timer()  
     //recalling all these renders make it so on click it clears all the old stuff off the map
     renderMaze(ctx, mazeArray)
     createHero()
@@ -215,7 +214,9 @@ const isColliding = (crawler1, crawler2) => {
 const gameLoopInterval = setInterval(gameLoop, 30)
 function gameLoop() {
     if (isColliding(hero, goal)) {
-        console.log("You're pretty clever")
+        clearInterval(timer)
+        infoScreen.style.zIndex = "3"
+        clock.innerHTML = "Life is fleeting, don't waste a second"
     } else {
         for (let i = 0; i < mobNames.length; i++) {
             if (isColliding(hero, mobNames[i])) {
@@ -233,44 +234,63 @@ function gameLoop() {
 //  we need to edit the interval and fix some of the logic
 // Selectors for the mini game
 const battle = document.querySelector('#battle')
-console.log(battle)
 const run = document.querySelector('#battleRun')
 const fight = document.querySelector('#battleFight')
 const hide = document.querySelector('#battleHide')
+
+const enableButtons = () => {
+    run.disabled = false
+    fight.disabled = false
+    hide.disabled = false
+}
+const disableButtons = () => {
+    run.disabled = true
+    fight.disabled = true
+    hide.disabled = true
+}
+
 
 const yourDead = () => {
     battle.style.zIndex = '0'
     infoScreen.style.zIndex = '3'
     clock.innerHTML = "You're dead"
+    enableButtons()
 }
 
+
 run.addEventListener('click', function() {
+    disableButtons()
     computerChoice = Math.floor(Math.random() * 3) 
         if(computerChoice === 3) {
             // need to add clear interval to stop the timer
             yourDead()
         } else { 
+            enableButtons()
             battle.style.zIndex = '0'
     }
 
 })
 
 fight.addEventListener('click', function(){
+    disableButtons()
     computerChoice = Math.floor(Math.random() * 2) 
     if(computerChoice === 0) {
         yourDead()
     } else {
         // add a function to add 5 seconds to the clocj
+        enableButtons()
         battle.style.zIndex = '0'
     }
 })
 
 hide.addEventListener('click', function(){
+    disableButtons()
     computerChoice = Math.floor(Math.random() * 4) 
     if(computerChoice === 0) {
         yourDead()
     } else {
         // add a function to remove 5 seconds from the clock
+        enableButtons()
         battle.style.zIndex = '0'
     }
 

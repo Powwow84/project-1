@@ -38,6 +38,34 @@ main {
     width: 80rem;
 }
 
+.battle_screen {
+    position: absolute;
+    z-index: 0;
+    background-color: black;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    border: solid;
+    height: 45rem;
+    width: 80rem;  
+    color: white;  
+}
+
+.battleText {
+    border: solid white;
+    text-align: center;
+}
+.battleButtons {
+    margin-top: 1rem;
+    justify-items: center;
+    align-self: center;
+ 
+}
+
+.battleButtons button {
+    width: 5rem;
+}
 /* z index will swit between 1 and 0 */
 .canvas {
     Position: absolute;
@@ -47,6 +75,7 @@ main {
     width: 80rem;
     background-color: white;
 }
+
 
 .play {
     position:absolute;
