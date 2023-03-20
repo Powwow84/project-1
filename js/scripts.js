@@ -132,29 +132,30 @@ const createMobs = () => {
 
 //On click starts timer + Creates hero/goal/mobs
 
-pButton.addEventListener('click', function(){
-    const timer = setInterval(function(){
-        timeLeft--
-        clock.innerText = `You have ${timeLeft} seconds`
-        if(timeLeft < 0) {
-            clearInterval(timer)
-            infoScreen.style.zIndex = "2"
-            clock.innerHTML = "You're dead"
-        } else if (isColliding(hero, goal)) {
-            clearInterval(timer)
-            infoScreen.style.zIndex = "2"
-            clock.innerHTML = "Life is fleeting, don't waste a second"
-        }
-    }, 1000)
-    createHero()
-    createGoal()
-    createMobs()
-    infoScreen.style.zIndex = "0"
-    timeLeft = 60
-})
+// pButton.addEventListener('click', function(){
+//     const timer = setInterval(function(){
+//         timeLeft--
+//         clock.innerText = `You have ${timeLeft} seconds`
+//         if(timeLeft < 0) {
+//             clearInterval(timer)
+//             infoScreen.style.zIndex = "2"
+//             clock.innerHTML = "You're dead"
+//         }
+//     }, 1000)
+//     renderMaze(ctx, mazeArray)
+//     createHero()
+//     createGoal()
+//     createMobs()
+//     infoScreen.style.zIndex = "0"
+//     timeLeft = 60
+// })
 
 // detects key strokes and moves the character if the move is valid. this came from the lesson for canvas from GA instructor Bailey. Add function to check for a valid move based on the maze array
 document.addEventListener('keydown', handleKeyPressEvent)
+
+function isColliding(crawler1, crawler2) {
+    return crawler1.x === crawler2.x && crawler1.y === crawler2.y;
+}
 
 function handleKeyPressEvent(e) {
     const speed = 20;
@@ -191,12 +192,10 @@ function handleKeyPressEvent(e) {
         goal.render()
         hero.render()
     }
+
 }
 
 // gameloop to detect if two game objects occupy the same space 
-function isColliding(crawler1, crawler2) {
-    return crawler1.x === crawler2.x && crawler1.y === crawler2.y;
-}
 
 const gameLoopInterval = setInterval(gameLoop, 30)
 function gameLoop() {
@@ -205,8 +204,8 @@ function gameLoop() {
     } else {
         for (let i = 0; i < mobNames.length; i++) {
             if (isColliding(hero, mobNames[i])) {
-                console.log("Endgame, baby");
-                break;
+                infoScreen.style.zIndex = "2"
+                clock.innerHTML = "time to battle";
             }
         }
     }

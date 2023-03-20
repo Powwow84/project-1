@@ -28,7 +28,7 @@ main {
 /* z index will swit between 1 and 0 */
 .info_screen {
     position: absolute;
-    z-index: 2;
+    z-index: 0;
     background-color: black;
     display:flex;
     justify-content: center;
