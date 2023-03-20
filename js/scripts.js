@@ -130,25 +130,25 @@ const createMobs = () => {
 }
 
 
-//On click starts timer + Creates hero/goal/mobs
+// On click starts timer + Creates hero/goal/mobs
 
-// pButton.addEventListener('click', function(){
-//     const timer = setInterval(function(){
-//         timeLeft--
-//         clock.innerText = `You have ${timeLeft} seconds`
-//         if(timeLeft < 0) {
-//             clearInterval(timer)
-//             infoScreen.style.zIndex = "2"
-//             clock.innerHTML = "You're dead"
-//         }
-//     }, 1000)
-//     renderMaze(ctx, mazeArray)
-//     createHero()
-//     createGoal()
-//     createMobs()
-//     infoScreen.style.zIndex = "0"
-//     timeLeft = 60
-// })
+pButton.addEventListener('click', function(){
+    const timer = setInterval(function(){
+        timeLeft--
+        clock.innerText = `You have ${timeLeft} seconds`
+        if(timeLeft < 0) {
+            clearInterval(timer)
+            infoScreen.style.zIndex = "2"
+            clock.innerHTML = "You're dead"
+        }
+    }, 1000)
+    renderMaze(ctx, mazeArray)
+    createHero()
+    createGoal()
+    createMobs()
+    infoScreen.style.zIndex = "0"
+    timeLeft = 60
+})
 
 // detects key strokes and moves the character if the move is valid. this came from the lesson for canvas from GA instructor Bailey. Add function to check for a valid move based on the maze array
 document.addEventListener('keydown', handleKeyPressEvent)
