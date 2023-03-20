@@ -133,6 +133,7 @@ const createMobs = () => {
 
 // On click starts timer + Creates hero/goal/mobs
 let timeLeft = 60
+let timerPause = 0
 let timerId = ''
 const timer = () => {
     timerId = setInterval(function(){
@@ -149,6 +150,7 @@ const timer = () => {
 
 pButton.addEventListener('click', function(){
     clearInterval(timerId)
+    timeLeft = 60
     timer()  
     //recalling all these renders make it so on click it clears all the old stuff off the map
     renderMaze(ctx, mazeArray)
@@ -156,16 +158,19 @@ pButton.addEventListener('click', function(){
     createGoal()
     createMobs()
     infoScreen.style.zIndex = "0"
-    timeLeft = 60
 })
 
+
+// Function needed for collision detection which is used in the handle Key press event function
+const isColliding = (crawler1, crawler2) => {
+    return crawler1.x === crawler2.x && crawler1.y === crawler2.y
+}
+
 // detects key strokes and moves the character if the move is valid. this came from the lesson for canvas from GA instructor Bailey. Add function to check for a valid move based on the maze array
+
 document.addEventListener('keydown', handleKeyPressEvent)
 
 function handleKeyPressEvent(e) {
-    // if(infoScreen.style.zIndex > canvas.style.zIndex || battle.style.zIndex > canvas.style.zIndex) {
-    //     return
-    // } else {
     const speed = 20;
     let prevX = hero.x
     let prevY = hero.y
@@ -201,13 +206,15 @@ function handleKeyPressEvent(e) {
         hero.render()
         }
 
+        // moved the collision detection in here. it makes it so that the user can't run past an object
     if (isColliding(hero, goal)) {
         clearInterval(timerId)
         infoScreen.style.zIndex = "3"
         clock.innerHTML = "Life is fleeting, don't waste a second"
     } else { for (let i = 0; i < mobNames.length; i++) {
                 if (isColliding(hero, mobNames[i])) {
-                    clock.innerHTML = "time to battle"
+                    clearInterval(timerId)
+                    clock.innerHTML = "Run: if you make it there is no time penalty  Fight: if you win you get +10 seconds  Hide: High chance of survival but you lose 5 seconds"
                     battle.style.zIndex = "3"
                     // add something here to freeze the clock
                     mobNames[i] = (10,10, 10,10, "black")
@@ -221,20 +228,19 @@ function handleKeyPressEvent(e) {
 
 
 
-// gameloop to detect if two game objects occupy the same space 
-const isColliding = (crawler1, crawler2) => {
-    return crawler1.x === crawler2.x && crawler1.y === crawler2.y
-}
+
 
 
 
 // MINIGAME
-//  we need to edit the interval and fix some of the logic
+
 // Selectors for the mini game
 const battle = document.querySelector('#battle')
 const run = document.querySelector('#battleRun')
 const fight = document.querySelector('#battleFight')
 const hide = document.querySelector('#battleHide')
+
+// functions for the minigame
 
 const enableButtons = () => {
     run.disabled = false
@@ -249,47 +255,57 @@ const disableButtons = () => {
 
 
 const yourDead = () => {
-    battle.style.zIndex = '0'
-    infoScreen.style.zIndex = '3'
-    clock.innerHTML = "You're dead"
-    enableButtons()
+    setTimeout(() =>{
+        battle.style.zIndex = '0'
+        infoScreen.style.zIndex = '3'
+        clock.innerHTML = "You're dead"
+        enableButtons()
+        clearInterval(timerId)
+    },2000)
 }
 
+const survived = () => {
+    setTimeout(()=>{
+        battle.style.zIndex = '0'
+        enableButtons()
+        timer()
+    }, 2000)
+}
 
-run.addEventListener('click', function() {
+// User selector options for the minigame
+
+run.addEventListener('keydown', function() {
     disableButtons()
     computerChoice = Math.floor(Math.random() * 3) 
         if(computerChoice === 3) {
             // need to add clear interval to stop the timer
             yourDead()
         } else { 
-            enableButtons()
-            battle.style.zIndex = '0'
+            survived() 
     }
 
 })
 
 fight.addEventListener('click', function(){
     disableButtons()
-    computerChoice = Math.floor(Math.random() * 2) 
-    if(computerChoice === 0) {
+    computerChoice = Math.floor(Math.random() * 3) 
+    if(computerChoice === 0 || computerChoice === 2) {
         yourDead()
     } else {
-        // add a function to add 5 seconds to the clocj
-        enableButtons()
-        battle.style.zIndex = '0'
+        timeLeft += 10
+        survived()
+        
     }
 })
 
 hide.addEventListener('click', function(){
     disableButtons()
-    computerChoice = Math.floor(Math.random() * 4) 
+    computerChoice = Math.floor(Math.random() * 5) 
     if(computerChoice === 0) {
         yourDead()
     } else {
-        // add a function to remove 5 seconds from the clock
-        enableButtons()
-        battle.style.zIndex = '0'
+        timeLeft -= 5
+        survived()
     }
 
 })
