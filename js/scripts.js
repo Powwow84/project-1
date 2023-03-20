@@ -118,7 +118,7 @@ const createMobs = () => {
         let x = randomX()
         let y = randomY()
         if(isValidMove(x,y)) {
-            mobNames[i] = new Crawler(x,y, 20, 20, '#F7F1E5')
+            mobNames[i] = new Crawler(x,y, 20, 20, 'red')
             mobNames[i].render()
         }
     }
@@ -206,4 +206,3 @@ function gameLoop() {
         }
     }
 }
-
