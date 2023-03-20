@@ -90,11 +90,11 @@ const createHero =() => {
     if(isValidMove(x,y)) {
         hero = new Crawler(x,y, 20, 20, 'pink')
         hero.render()
+    } else {
+        createHero()
     }
        
 }
-
-
 
 let goal = new Crawler(1240, 20, 20, 20, 'pink')
 
@@ -104,22 +104,27 @@ const createGoal =() => {
     goal = ''
     let x = randomX()
     let y = randomY()
-    if(isValidMove(x,y)) {   
+    if(isValidMove(x,y) && x !== hero.x && y !== hero.y) {   
         goal = new Crawler(x,y, 20, 20, 'green')
         goal.render()
+    } else {
+        createGoal()
     }
        
 }
 
-// this generates random mobs on the map using the random x and y functions
 const createMobs = () => {
-    for (let i = 0 ; i < mobNames.length ; i++) {
-        mobNames[i] = ''
-        let x = randomX()
-        let y = randomY()
-        if(isValidMove(x,y)) {
-            mobNames[i] = new Crawler(x,y, 20, 20, 'red')
-            mobNames[i].render()
+    let numberOfMobs = 0;
+    mobNames = []
+    while (numberOfMobs < 40) {
+        let x = randomX();
+        let y = randomY();
+
+        if (isValidMove(x, y) && x !== hero.x && y !== hero.y && x !== goal.x && y !== goal.y) {
+            let newMob = new Crawler(x, y, 20, 20, 'red');
+            newMob.render();
+            mobNames.push(newMob);
+            numberOfMobs++;
         }
     }
 }
