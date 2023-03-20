@@ -133,12 +133,13 @@ const createMobs = () => {
 
 // On click starts timer + Creates hero/goal/mobs
 let timeLeft = 60
+let timerId = ''
 const timer = () => {
-    setInterval(function(){
+    timerId = setInterval(function(){
         timeLeft --
         clock.innerText = `You have ${timeLeft} seconds`
         if(timeLeft < 0) {
-            clearInterval(timer)
+            clearInterval(timerId)
             infoScreen.style.zIndex = "3"
             clock.innerHTML = "You're dead"     
         }
@@ -147,6 +148,7 @@ const timer = () => {
 
 
 pButton.addEventListener('click', function(){
+    clearInterval(timerId)
     timer()  
     //recalling all these renders make it so on click it clears all the old stuff off the map
     renderMaze(ctx, mazeArray)
@@ -197,8 +199,21 @@ function handleKeyPressEvent(e) {
         ctx.fillRect(prevX, prevY, hero.width, hero.height)
         goal.render() //this is to make it so the color of the goal doesnt go away if the hero runs past it
         hero.render()
-
         }
+
+    if (isColliding(hero, goal)) {
+        clearInterval(timerId)
+        infoScreen.style.zIndex = "3"
+        clock.innerHTML = "Life is fleeting, don't waste a second"
+    } else { for (let i = 0; i < mobNames.length; i++) {
+                if (isColliding(hero, mobNames[i])) {
+                    clock.innerHTML = "time to battle"
+                    battle.style.zIndex = "3"
+                    // add something here to freeze the clock
+                    mobNames[i] = (10,10, 10,10, "black")
+                }
+            }
+        }    
     }
 // }
 
@@ -211,23 +226,6 @@ const isColliding = (crawler1, crawler2) => {
     return crawler1.x === crawler2.x && crawler1.y === crawler2.y
 }
 
-const gameLoopInterval = setInterval(gameLoop, 30)
-function gameLoop() {
-    if (isColliding(hero, goal)) {
-        clearInterval(timer)
-        infoScreen.style.zIndex = "3"
-        clock.innerHTML = "Life is fleeting, don't waste a second"
-    } else {
-        for (let i = 0; i < mobNames.length; i++) {
-            if (isColliding(hero, mobNames[i])) {
-                clock.innerHTML = "time to battle"
-                battle.style.zIndex = "3"
-                // add something here to freeze the clock
-                mobNames[i] = (10,10, 10,10, "black")
-            }
-        }
-    }
-}
 
 
 // MINIGAME
