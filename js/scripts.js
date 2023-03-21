@@ -9,6 +9,7 @@ const replayWin = document.querySelector('#replaywin')
 const replayDead = document.querySelector('#replayDead')
 const canvas = document.querySelector('#canvas')
 const ctx = canvas.getContext("2d")
+const battle = document.querySelector('#battle')
 
 
 
@@ -187,9 +188,11 @@ const isColliding = (crawler1, crawler2) => {
     return crawler1.x === crawler2.x && crawler1.y === crawler2.y
 }
 
-// detects key strokes and moves the character if the move is valid. this came from the lesson for canvas from GA instructor Bailey. Add function to check for a valid move based on the maze array
+// detects key strokes and moves the character if the move is valid. Part of this came from the lesson for canvas from GA instructor Bailey. Add function to check for a valid move based on the maze array
 
 document.addEventListener('keydown', handleKeyPressEvent)
+
+let battleUP = false
 
 function handleKeyPressEvent(e) {
     const speed = 20;
@@ -198,6 +201,7 @@ function handleKeyPressEvent(e) {
     let newX = hero.x
     let newY = hero.y
 
+    
     switch (e.key) {
         case "w":
         case "ArrowUp":
@@ -217,12 +221,13 @@ function handleKeyPressEvent(e) {
             break;
     }
 
-    if (isValidMove(newX, newY)) {
+    if (isValidMove(newX, newY) && battleUP === false)  {
         hero.x = newX
         hero.y = newY
         movement.innerText = `x: ${hero.x} y: ${hero.y}`
-        ctx.fillStyle = '#F7F1E5'
-        ctx.fillRect(prevX, prevY, hero.width, hero.height)
+        // ctx.fillStyle = '#F7F1E5'
+        ctx.clearRect(prevX, prevY, hero.width, hero.height)
+        // ctx.fillRect(prevX, prevY, hero.width, hero.height)
         goal.render() //this is to make it so the color of the goal doesnt go away if the hero runs past it
         hero.render()
         }
@@ -237,6 +242,7 @@ function handleKeyPressEvent(e) {
                     clearInterval(timerId)
                     clearBattle()
                     battle.style.zIndex = "3"
+                    battleUP = true
                     mobNames[i] = (10,10, 10,10, "black")
                 }
             }
@@ -251,12 +257,10 @@ function handleKeyPressEvent(e) {
 
 
 
-
 // MINIGAME
 
 // Selectors for the mini game
 
-const battle = document.querySelector('#battle')
 const battleUpdate = document.querySelector('#battleUpdate')
 const run = document.querySelector('#battleRun')
 const fight = document.querySelector('#battleFight')
@@ -295,6 +299,7 @@ const yourDead = () => {
         clock.innerHTML = "You're dead"
         enableButtons()
         clearInterval(timerId)
+        battleUP = false
     }, 3200)
 }
 
@@ -303,6 +308,7 @@ const survived = () => {
         battle.style.zIndex = '0'
         enableButtons()
         timer()
+        battleUP = false
     }, 3200)
 }
 
@@ -325,13 +331,13 @@ run.addEventListener('click', function() {
 fight.addEventListener('click', function(){
     disableButtons()
     battleUpdate.innerText = "You pickup a rock to fight the creature"
-    computerChoice = Math.floor(Math.random() * 3) 
-    if(computerChoice === 0 || computerChoice === 2) {
+    computerChoice = Math.floor(Math.random() * 2) 
+    if(computerChoice === 0) {
         moveInterval(fightLost, fightLostBG)
         yourDead()
     } else {
         moveInterval(fightWin, fightWinBG)
-        timeLeft += 10
+        timeLeft += 5
         survived()
     }
 })

@@ -85,7 +85,7 @@ const runEscape = 'You outran the creature!'
 const hideFound = 'The creature has found you'
 const hideHidden = 'It didnt see you but you lost 5 seconds'
 const fightLost = 'The creature has crushed you'
-const fightWin = 'It\'s dead, and you\'ve gained 10 seconds'
+const fightWin = 'It\'s dead, and you\'ve gained 5 seconds'
 
 //BG's
 
