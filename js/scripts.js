@@ -2,7 +2,11 @@
 const movement = document.querySelector('#movement')
 const clock = document.querySelector('#clock')
 const infoScreen = document.querySelector('#infoScreen')
+const winScreen = document.querySelector('#survivor')
+const deathScreen = document.querySelector('#deathScreen') 
 const pButton = document.querySelector('#pButton')
+const replayWin = document.querySelector('#replaywin')
+const replayDead = document.querySelector('#replayDead')
 const canvas = document.querySelector('#canvas')
 const ctx = canvas.getContext("2d")
 
@@ -141,14 +145,15 @@ const timer = () => {
         clock.innerText = `You have ${timeLeft} seconds`
         if(timeLeft < 0) {
             clearInterval(timerId)
-            infoScreen.style.zIndex = "3"
+            deathScreen.style.zIndex = "3"
             clock.innerHTML = "You're dead"     
         }
     },1000)
 }
 
+//reset buttons for different screens
 
-pButton.addEventListener('click', function(){
+const reset = () => {
     clearInterval(timerId)
     timeLeft = 60
     timer()  
@@ -158,6 +163,22 @@ pButton.addEventListener('click', function(){
     createGoal()
     createMobs()
     infoScreen.style.zIndex = "0"
+    deathScreen.style.zIndex = "0"
+    winScreen.style.zIndex = "0"
+}
+
+// buttons for title/win/lose screens
+
+pButton.addEventListener('click', function(){
+    reset()
+})
+
+replayDead.addEventListener('click', function() {
+    reset()
+})
+
+replayWin.addEventListener('click', function(){
+    reset()
 })
 
 
@@ -209,14 +230,13 @@ function handleKeyPressEvent(e) {
         // moved the collision detection in here. it makes it so that the user can't run past an object
     if (isColliding(hero, goal)) {
         clearInterval(timerId)
-        infoScreen.style.zIndex = "3"
+        winScreen.style.zIndex = "3"
         clock.innerHTML = "Life is fleeting, don't waste a second"
     } else { for (let i = 0; i < mobNames.length; i++) {
                 if (isColliding(hero, mobNames[i])) {
                     clearInterval(timerId)
-                    clock.innerHTML = "Run: if you make it there is no time penalty  Fight: if you win you get +10 seconds  Hide: High chance of survival but you lose 5 seconds"
+                    clearBattle()
                     battle.style.zIndex = "3"
-                    // add something here to freeze the clock
                     mobNames[i] = (10,10, 10,10, "black")
                 }
             }
@@ -235,12 +255,20 @@ function handleKeyPressEvent(e) {
 // MINIGAME
 
 // Selectors for the mini game
+
 const battle = document.querySelector('#battle')
+const battleUpdate = document.querySelector('#battleUpdate')
 const run = document.querySelector('#battleRun')
 const fight = document.querySelector('#battleFight')
 const hide = document.querySelector('#battleHide')
 
+
 // functions for the minigame
+
+const clearBattle = () => {
+    battleUpdate.innerText = 'There is a creature in your path. What do you want to do?'
+    battle.style.backgroundImage =  "url('https://i.imgur.com/0LYXRge.jpg')"
+}
 
 const enableButtons = () => {
     run.disabled = false
@@ -253,15 +281,21 @@ const disableButtons = () => {
     hide.disabled = true
 }
 
+const moveInterval = (sentence, bgIMG) => {
+    setTimeout(() => {
+        battleUpdate.innerText = sentence
+        battle.style.backgroundImage =  bgIMG
+    }, 1500)
+}
 
 const yourDead = () => {
     setTimeout(() =>{
         battle.style.zIndex = '0'
-        infoScreen.style.zIndex = '3'
+        deathScreen.style.zIndex = '3'
         clock.innerHTML = "You're dead"
         enableButtons()
         clearInterval(timerId)
-    },2000)
+    }, 3200)
 }
 
 const survived = () => {
@@ -269,18 +303,20 @@ const survived = () => {
         battle.style.zIndex = '0'
         enableButtons()
         timer()
-    }, 2000)
+    }, 3200)
 }
 
 // User selector options for the minigame
 
-run.addEventListener('keydown', function() {
+run.addEventListener('click', function() {
     disableButtons()
+    battleUpdate.innerText = "You decided run"
     computerChoice = Math.floor(Math.random() * 3) 
-        if(computerChoice === 3) {
-            // need to add clear interval to stop the timer
-            yourDead()
+    if(computerChoice === 0) {
+        moveInterval(runCaught, runCaughtBG)
+        yourDead()
         } else { 
+            moveInterval(runEscape, runEscapeBG)
             survived() 
     }
 
@@ -288,22 +324,27 @@ run.addEventListener('keydown', function() {
 
 fight.addEventListener('click', function(){
     disableButtons()
+    battleUpdate.innerText = "You pickup a rock to fight the creature"
     computerChoice = Math.floor(Math.random() * 3) 
     if(computerChoice === 0 || computerChoice === 2) {
+        moveInterval(fightLost, fightLostBG)
         yourDead()
     } else {
+        moveInterval(fightWin, fightWinBG)
         timeLeft += 10
         survived()
-        
     }
 })
 
 hide.addEventListener('click', function(){
     disableButtons()
-    computerChoice = Math.floor(Math.random() * 5) 
+    battleUpdate.innerText = "You quickly hide"
+    computerChoice = Math.floor(Math.random() * 4) 
     if(computerChoice === 0) {
+        moveInterval(hideFound, hideFoundBG)
         yourDead()
     } else {
+        moveInterval(hideHidden, hideHiddenBG)
         timeLeft -= 5
         survived()
     }

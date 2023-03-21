@@ -7,25 +7,35 @@
         <script src="./js/scripts.js" defer></script>
     </head>
     <header>
-        <h1>Maize Runner</h1>
         <div>
             <p id="movement"></p>
             <p class="clock" id="clock">You have 60 second</p>
         </div>
         <!-- header will be present at all times -->
-        <!-- p element will only be visible when the maze has rendered -->
-        <p class="instructions">Navigate the maize and find the exit with the arrow keys</p>
     </header>
     <main>
         <!-- title screen will have a z index of 1 or 0 -->
-        <section class="info_screen" id="infoScreen">
+        <section class="info_screen title" id="infoScreen">
             <button class="play" id="pButton">Play Game</button>
         </section>
 
+        <!-- This is for the win screen -->
+
+        <section class="info_screen win" id="survivor">
+            <button class="playWin" id="replaywin">RESTART</button>
+        </section>
+
+        <!-- This is for the dead screen -->
+
+        <section class="info_screen dead" id="deathScreen">
+            <button class="playDead" id="replayDead">RESTART</button>
+        </section>
+
+       
         <!-- this is for the battle screen that appears -->
         <section class="battle_screen" id="battle">
             <div class="battleText">
-                <p id="battleUpdate">There is a monster in your path. What do you want to do?</p>
+                <p id="battleUpdate">There is a creature in your path. What do you want to do?</p>
             </div>
             <div class="battleButtons">
                 <button id="battleHide">HIDE (1)</button>
@@ -33,6 +43,7 @@
                 <button id="battleFight">FIGHT (3)</button>
             </div>
         </section>
+
         <!-- canvas will have a z index of either 1 or 0  -->
         <canvas class="canvas" id="canvas"><canvas>
     </main>

@@ -80,3 +80,20 @@ const mazeArray = [
 
 let mobNames = []
 
+const runCaught = 'The creature caught up to you'
+const runEscape = 'You outran the creature!'
+const hideFound = 'The creature has found you'
+const hideHidden = 'It didnt see you but you lost 5 seconds'
+const fightLost = 'The creature has crushed you'
+const fightWin = 'It\'s dead, and you\'ve gained 10 seconds'
+
+//BG's
+
+const runCaughtBG = "url('https://i.imgur.com/fDv5aAK.jpg')"
+const runEscapeBG = "url('https://i.imgur.com/TuABPjF.jpg')"
+const fightLostBG = "url('https://i.imgur.com/nCerJzX.jpg')"
+const fightWinBG = "url('https://i.imgur.com/K3BLtfZ.jpg')"
+const hideHiddenBG = "url('https://i.imgur.com/8hCXjZi.jpg')"
+const hideFoundBG = "url('https://i.imgur.com/7GMyxey.jpg')"
+
+
