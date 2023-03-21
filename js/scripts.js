@@ -11,6 +11,18 @@ const replayDead = document.querySelector('#replayDead')
 const canvas = document.querySelector('#canvas')
 const ctx = canvas.getContext("2d")
 const battle = document.querySelector('#battle')
+pButton.disabled = false
+replayDead.disabled = true
+replayWin.disabled = true
+
+// Selectors for the mini game
+const battleUpdate = document.querySelector('#battleUpdate')
+const run = document.querySelector('#battleRun')
+const fight = document.querySelector('#battleFight')
+const hide = document.querySelector('#battleHide')
+run.disabled = true
+fight.disabled = true
+hide.disabled = true
 
 
 
@@ -146,9 +158,7 @@ const timer = () => {
         timeLeft --
         clock.innerText = `You have ${timeLeft} seconds`
         if(timeLeft < 0) {
-            clearInterval(timerId)
-            deathScreen.style.zIndex = "3"
-            clock.innerHTML = "You're dead"     
+            yourDead()    
         }
     },1000)
 }
@@ -176,15 +186,18 @@ pButton.addEventListener('click', function(){
     setTimeout(() =>{
         info.style.zIndex = "0"
     }, 2000)
+    pButton.disabled = true
     reset()
 })
 
 replayDead.addEventListener('click', function() {
     reset()
+    replayDead.disabled = true
 })
 
 replayWin.addEventListener('click', function(){
     reset()
+    replayWin.disabled = true
 })
 
 
@@ -266,23 +279,7 @@ function handleKeyPressEvent(e) {
 // }
 
 
-
-
-
-
-
-
 // MINIGAME
-
-// Selectors for the mini game
-
-const battleUpdate = document.querySelector('#battleUpdate')
-const run = document.querySelector('#battleRun')
-const fight = document.querySelector('#battleFight')
-const hide = document.querySelector('#battleHide')
-run.disabled = false
-fight.disabled = false
-hide.disabled = false
 
 
 // functions for the minigame
@@ -293,11 +290,9 @@ const clearBattle = () => {
 }
 
 const enableButtons = () => {
-    setTimeout(() => {
     run.disabled = false
     fight.disabled = false
     hide.disabled = false
-}, 1000)
 }
 const disableButtons = () => {
     run.disabled = true
@@ -319,6 +314,7 @@ const yourDead = () => {
         clock.innerHTML = "You're dead"
         clearInterval(timerId)
         battleUP = false
+        replayDead.disabled = false
     }, 3200)
 }
 
@@ -327,6 +323,7 @@ const survived = () => {
         battle.style.zIndex = '0'
         timer()
         battleUP = false
+        replayWin.disabled = false
     }, 3200)
 }
 
