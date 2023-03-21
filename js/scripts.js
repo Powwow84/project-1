@@ -158,7 +158,10 @@ const timer = () => {
         timeLeft --
         clock.innerText = `You have ${timeLeft} seconds`
         if(timeLeft < 0) {
-            yourDead()    
+            deathScreen.style.zIndex = '3'
+            clock.innerHTML = "You're dead"
+            clearInterval(timerId)
+            replayDead.disabled = false   
         }
     },1000)
 }
