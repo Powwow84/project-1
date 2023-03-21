@@ -2,6 +2,7 @@
 const movement = document.querySelector('#movement')
 const clock = document.querySelector('#clock')
 const infoScreen = document.querySelector('#infoScreen')
+const info =document.querySelector('#info')
 const winScreen = document.querySelector('#survivor')
 const deathScreen = document.querySelector('#deathScreen') 
 const pButton = document.querySelector('#pButton')
@@ -137,7 +138,7 @@ const createMobs = () => {
 
 
 // On click starts timer + Creates hero/goal/mobs
-let timeLeft = 60
+let timeLeft = 61
 let timerPause = 0
 let timerId = ''
 const timer = () => {
@@ -156,7 +157,7 @@ const timer = () => {
 
 const reset = () => {
     clearInterval(timerId)
-    timeLeft = 60
+    timeLeft = 61
     timer()  
     //recalling all these renders make it so on click it clears all the old stuff off the map
     renderMaze(ctx, mazeArray)
@@ -171,6 +172,10 @@ const reset = () => {
 // buttons for title/win/lose screens
 
 pButton.addEventListener('click', function(){
+    info.style.zIndex = "3"
+    setTimeout(() =>{
+        info.style.zIndex = "0"
+    }, 2000)
     reset()
 })
 
@@ -219,6 +224,15 @@ function handleKeyPressEvent(e) {
         case "ArrowRight":
             newX += speed;
             break;
+        case "1":
+            hide.click();
+            break;
+        case "2":
+            run.click();
+            break;
+        case "3":
+            fight.click();
+            break;
     }
 
     if (isValidMove(newX, newY) && battleUP === false)  {
@@ -236,12 +250,13 @@ function handleKeyPressEvent(e) {
     if (isColliding(hero, goal)) {
         clearInterval(timerId)
         winScreen.style.zIndex = "3"
-        clock.innerHTML = "Life is fleeting, don't waste a second"
+        clock.innerHTML = `Your score is ${timeLeft}`
     } else { for (let i = 0; i < mobNames.length; i++) {
                 if (isColliding(hero, mobNames[i])) {
                     clearInterval(timerId)
                     clearBattle()
                     battle.style.zIndex = "3"
+                    enableButtons()
                     battleUP = true
                     mobNames[i] = (10,10, 10,10, "black")
                 }
@@ -265,6 +280,9 @@ const battleUpdate = document.querySelector('#battleUpdate')
 const run = document.querySelector('#battleRun')
 const fight = document.querySelector('#battleFight')
 const hide = document.querySelector('#battleHide')
+run.disabled = false
+fight.disabled = false
+hide.disabled = false
 
 
 // functions for the minigame
@@ -275,9 +293,11 @@ const clearBattle = () => {
 }
 
 const enableButtons = () => {
+    setTimeout(() => {
     run.disabled = false
     fight.disabled = false
     hide.disabled = false
+}, 1000)
 }
 const disableButtons = () => {
     run.disabled = true
@@ -297,7 +317,6 @@ const yourDead = () => {
         battle.style.zIndex = '0'
         deathScreen.style.zIndex = '3'
         clock.innerHTML = "You're dead"
-        enableButtons()
         clearInterval(timerId)
         battleUP = false
     }, 3200)
@@ -306,7 +325,6 @@ const yourDead = () => {
 const survived = () => {
     setTimeout(()=>{
         battle.style.zIndex = '0'
-        enableButtons()
         timer()
         battleUP = false
     }, 3200)

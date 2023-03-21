@@ -38,6 +38,23 @@ main {
     background-size: cover;
 }
 
+.info {
+    display: flex;
+    flex-direction: column;
+    z-index: 0;
+    color: white;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.movement_info {
+    display: flex;
+}
+
+.info p {
+    padding: 0 2rem;
+}
+
 .win {
     z-index: 0;
     background-image: url(https://i.imgur.com/mf2RIOj.jpg);
