@@ -25,7 +25,6 @@ fight.disabled = true
 hide.disabled = true
 
 
-
 // canvas display
 
 canvas.setAttribute('height', getComputedStyle(canvas).height)
@@ -33,32 +32,22 @@ canvas.setAttribute('width', getComputedStyle(canvas).width)
 
 // render map function, this generates the maze according to the 2d Array added as a argument
 
-// creates and starts timer on button click
-
-const darkness = (ctx, mazeArray) => {
-    for (let i = 0; i < mazeArray.length; i++) {
-        for (let j = 0; j < mazeArray[i].length; j++) {
-            ctx.beginPath()
-            ctx.rect(j * 20, i * 20, 20, 20)
-            ctx.fillStyle = "rgba(0, 0, 0, .5)"
-            ctx.fill()
-            ctx.closePath()
-        }
-    }
+const darkness =() => {
+    ctx.fillStyle = "Black"
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
 }
-
 
 
 // darkness(ctx, mazeArray)
 const renderMaze = (ctx, mazeArray) => {
-    const heroTileX = Math.floor(hero.x / 20)
-    const heroTileY = Math.floor(hero.y / 20)
+    const heroTileX = hero.x / 20
+    const heroTileY = hero.y / 20
 
     for (let i = heroTileY - 1; i <= heroTileY + 1; i++) {
         for (let j = heroTileX - 1; j <= heroTileX + 1; j++) {
             if (i >= 0 && i < mazeArray.length && j >= 0 && j < mazeArray[0].length) {
-                ctx.fillStyle = mazeArray[i][j] === 0 ? "black" : "grey";
-                ctx.fillRect(j * 20, i * 20, 20, 20);
+                ctx.fillStyle = mazeArray[i][j] === 0 ? "black" : "grey"
+                ctx.fillRect(j * 20, i * 20, 20, 20)
             }
         }
     }
@@ -81,15 +70,14 @@ class Crawler {
     }  
 }
 
-// game objects, this came from the lesson for canvas from GA instructor Bailey 
 
 
 // FUNCTIONS*********
 
 // // checks to see if a block is a 1 or 0 in the mapArray
 function isValidMove(x, y) {
-    const arrayX = Math.floor(x / 20)
-    const arrayY = Math.floor(y / 20)
+    const arrayX = x / 20
+    const arrayY = y / 20
     if (mazeArray[arrayY] && mazeArray[arrayY][arrayX] === 0) {
         return true
     } else {
@@ -100,16 +88,16 @@ function isValidMove(x, y) {
 // generates a random x and Y which we use to randomly spawn our objects
 
 const randomX = () => {
-    const randomMultiple = Math.floor(Math.random() * (62) + 1)
+    const randomMultiple = Math.floor(Math.random() * 63)
     return randomMultiple * 20
   }
   
 
 const randomY = () => {
-    const randomMultiple = Math.floor(Math.random() * (34) + 1)
+    const randomMultiple = Math.floor(Math.random() * 35)
     return randomMultiple * 20
 }
-
+ 
 
 // this creates a random spawn for the hero and the goal
 let hero = new Crawler(20, 20, 20, 20, 'pink')
@@ -132,7 +120,7 @@ const createHero = () => {
 let goal = new Crawler(1240, 20, 20, 20, 'pink')
 
 const createGoal =() => {
-    ctx.fillStyle = '#F7F1E5'
+    ctx.fillStyle = 'black'
     ctx.fillRect(goal.x, goal.y, 20, 20)
     goal = ''
     let x = randomX()
@@ -148,7 +136,7 @@ const createGoal =() => {
 
 const createMobs = () => {
     let numberOfMobs = 0
-    mobNames = []
+    mobNames = [] //this is to clear the array of mobs before running again on replay
     while (numberOfMobs < 50) {
         let x = randomX()
         let y = randomY()
@@ -163,9 +151,8 @@ const createMobs = () => {
 }
 
 
-// On click starts timer + Creates hero/goal/mobs
+// On click starts timer + and decrements from the timeleft. then it checks for time less than 0
 let timeLeft = 61
-let timerPause = 0
 let timerId = ''
 const timer = () => {
     timerId = setInterval(function(){
@@ -180,7 +167,7 @@ const timer = () => {
     },1000)
 }
 
-//reset buttons for different screens
+//reset stuff for different screens. Its used to reset some of the UI when the game restarts
 
 const reset = () => {
     clearInterval(timerId)
@@ -189,7 +176,7 @@ const reset = () => {
     //recalling all these renders make it so on click it clears all the old stuff off the map
     createGoal()
     createMobs()
-    darkness(ctx, mazeArray)
+    darkness()
     createHero()
     infoScreen.style.zIndex = "0"
     deathScreen.style.zIndex = "0"
@@ -231,8 +218,6 @@ let battleUP = false
 
 function handleKeyPressEvent(e) {
     const speed = 20;
-    let prevX = hero.x
-    let prevY = hero.y
     let newX = hero.x
     let newY = hero.y
 
@@ -265,25 +250,27 @@ function handleKeyPressEvent(e) {
             break;
     }
 
+        // this function is needed to check to see for boundaries. Added a bolean to check for the battle slide so that you cantr move if the slide is up
     if (isValidMove(newX, newY) && battleUP === false)  {
-        hero.x = newX
-        hero.y = newY
-        movement.innerText = `x: ${hero.x} y: ${hero.y}`
-        ctx.fillStyle = "rgba(250, 250, 250, 0)"
-        renderMaze(ctx, mazeArray, hero)
-        hero.render()
+            hero.x = newX
+            hero.y = newY
+            movement.innerText = `x: ${hero.x} y: ${hero.y}`
+            ctx.fillStyle = "rgba(250, 250, 250, 0)"
+            renderMaze(ctx, mazeArray, hero)
+            hero.render()
         }
 
+        // needed to repaint the goal since the map redraw drew over it
     if ((hero.x <= goal.x + 20 && hero.x >= goal.x -20) && (hero.y <= goal.y + 20 && hero.y >= goal.y - 20 )) {
         goal.render()
     }
 
         // moved the collision detection in here. it makes it so that the user can't run past an object
     if (isColliding(hero, goal)) {
-        clearInterval(timerId)
-        winScreen.style.zIndex = "3"
-        clock.innerHTML = `Your score is ${timeLeft}`
-    } else { for (let i = 0; i < mobNames.length; i++) {
+            clearInterval(timerId)
+            winScreen.style.zIndex = "3"
+            clock.innerHTML = `Your score is ${timeLeft}`
+         } else { for (let i = 0; i < mobNames.length; i++) {
                 if (isColliding(hero, mobNames[i])) {
                     clearInterval(timerId)
                     clearBattle()
@@ -365,7 +352,7 @@ fight.addEventListener('click', function(){
     disableButtons()
     battleUpdate.innerText = "You pickup a rock to fight the creature"
     computerChoice = Math.floor(Math.random() * 2) 
-    if(computerChoice === 3) {
+    if(computerChoice === 0) {
         moveInterval(fightLost, fightLostBG)
         yourDead()
     } else {
