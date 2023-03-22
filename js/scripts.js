@@ -35,20 +35,34 @@ canvas.setAttribute('width', getComputedStyle(canvas).width)
 
 // creates and starts timer on button click
 
-const renderMaze = (ctx, mazeArray) => {
+const darkness = (ctx, mazeArray) => {
     for (let i = 0; i < mazeArray.length; i++) {
         for (let j = 0; j < mazeArray[i].length; j++) {
             ctx.beginPath()
             ctx.rect(j * 20, i * 20, 20, 20)
-            ctx.fillStyle = mazeArray[i][j] === 0 ? 'black' : 'grey'
+            ctx.fillStyle = "rgba(0, 0, 0, .5)"
             ctx.fill()
             ctx.closePath()
         }
     }
 }
 
-renderMaze(ctx, mazeArray)
 
+
+// darkness(ctx, mazeArray)
+const renderMaze = (ctx, mazeArray) => {
+    const heroTileX = Math.floor(hero.x / 20)
+    const heroTileY = Math.floor(hero.y / 20)
+
+    for (let i = heroTileY - 1; i <= heroTileY + 1; i++) {
+        for (let j = heroTileX - 1; j <= heroTileX + 1; j++) {
+            if (i >= 0 && i < mazeArray.length && j >= 0 && j < mazeArray[0].length) {
+                ctx.fillStyle = mazeArray[i][j] === 0 ? "black" : "grey";
+                ctx.fillRect(j * 20, i * 20, 20, 20);
+            }
+        }
+    }
+};
 
 // game objects prototype, this came from the lesson for canvas from GA instructor Bailey
 
@@ -101,7 +115,7 @@ const randomY = () => {
 let hero = new Crawler(20, 20, 20, 20, 'pink')
 
 const createHero = () => {
-    ctx.fillStyle = '#F7F1E5'
+    ctx.fillStyle = 'black'
     ctx.fillRect(hero.x, hero.y, 20, 20)
     hero = ''
     let x = randomX()
@@ -173,10 +187,10 @@ const reset = () => {
     timeLeft = 61
     timer()  
     //recalling all these renders make it so on click it clears all the old stuff off the map
-    renderMaze(ctx, mazeArray)
-    createHero()
     createGoal()
     createMobs()
+    darkness(ctx, mazeArray)
+    createHero()
     infoScreen.style.zIndex = "0"
     deathScreen.style.zIndex = "0"
     winScreen.style.zIndex = "0"
@@ -255,12 +269,14 @@ function handleKeyPressEvent(e) {
         hero.x = newX
         hero.y = newY
         movement.innerText = `x: ${hero.x} y: ${hero.y}`
-        // ctx.fillStyle = '#F7F1E5'
-        ctx.clearRect(prevX, prevY, hero.width, hero.height)
-        // ctx.fillRect(prevX, prevY, hero.width, hero.height)
-        goal.render() //this is to make it so the color of the goal doesnt go away if the hero runs past it
+        ctx.fillStyle = "rgba(250, 250, 250, 0)"
+        renderMaze(ctx, mazeArray, hero)
         hero.render()
         }
+
+    if ((hero.x <= goal.x + 20 && hero.x >= goal.x -20) && (hero.y <= goal.y + 20 && hero.y >= goal.y - 20 )) {
+        goal.render()
+    }
 
         // moved the collision detection in here. it makes it so that the user can't run past an object
     if (isColliding(hero, goal)) {
@@ -280,7 +296,6 @@ function handleKeyPressEvent(e) {
         }    
     }
 // }
-
 
 // MINIGAME
 
@@ -350,7 +365,7 @@ fight.addEventListener('click', function(){
     disableButtons()
     battleUpdate.innerText = "You pickup a rock to fight the creature"
     computerChoice = Math.floor(Math.random() * 2) 
-    if(computerChoice === 0) {
+    if(computerChoice === 3) {
         moveInterval(fightLost, fightLostBG)
         yourDead()
     } else {

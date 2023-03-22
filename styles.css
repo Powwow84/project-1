@@ -100,7 +100,7 @@ main {
 .battleButtons button {
     width: 7rem;
 }
-/* z index will swit between 1 and 0 */
+/* z index needs to default to 1 otherwise the logic for which screens show up will be messed up*/
 .canvas {
     Position: absolute;
     z-index: 1;
