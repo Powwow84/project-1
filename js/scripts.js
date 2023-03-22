@@ -41,7 +41,7 @@ const path = new Image();
 path.src = 'https://i.imgur.com/8HAkEms.png';
 
 const walls = new Image();
-walls.src = 'https://i.imgur.com/YclNGjT.png';
+walls.src = 'https://i.imgur.com/nmKjg8n.png';
 
 const renderMaze = (ctx, mazeArray, tileImage, tileImage2) => {
     const heroTileX = hero.x / 20;
@@ -61,23 +61,32 @@ const renderMaze = (ctx, mazeArray, tileImage, tileImage2) => {
 };
 
 
+
 // game objects prototype, this came from the lesson for canvas from GA instructor Bailey
 
 class Crawler {
-    constructor(x, y, width, height, color) {
+    constructor(x, y, width, height) {
         this.x = x
         this.y = y
         this.width = width
         this.height = height
-        this.color = color
+        
     }
     
-    render() {
-        ctx.fillStyle = this.color
-        ctx.fillRect(this.x, this.y, this.width, this.height)
+    render(ctx,img) {
+        ctx.drawImage(img,this.x, this.y, this.width, this.height)
     }  
 }
 
+const heroIMG = new Image();
+heroIMG.src = 'https://i.imgur.com/EiFYhcu.png';
+
+
+const goalIMG = new Image();
+goalIMG.src = 'https://i.imgur.com/cWinJno.png'
+
+const mobIMG = new Image();
+mobIMG.src = 'https://i.imgur.com/6P5uHrj.png';
 
 
 // FUNCTIONS*********
@@ -108,34 +117,30 @@ const randomY = () => {
  
 
 // this creates a random spawn for the hero and the goal
-let hero = new Crawler(20, 20, 20, 20, 'pink')
+let hero = new Crawler(20, 20, 20, 20)
 
 const createHero = () => {
-    ctx.fillStyle = 'black'
-    ctx.fillRect(hero.x, hero.y, 20, 20)
     hero = ''
     let x = randomX()
     let y = randomY()
     if(isValidMove(x,y)) {
-        hero = new Crawler(x,y, 20, 20, 'pink')
-        hero.render()
+        hero = new Crawler(x,y, 20, 20)
+        hero.render(ctx,heroIMG)
     } else {
         createHero()
     }
        
 }
 
-let goal = new Crawler(1240, 20, 20, 20, 'pink')
+let goal = new Crawler(1240, 20, 20, 20)
 
 const createGoal =() => {
-    ctx.fillStyle = 'black'
-    ctx.fillRect(goal.x, goal.y, 20, 20)
     goal = ''
     let x = randomX()
     let y = randomY()
     if(isValidMove(x,y) && x !== hero.x && y !== hero.y) {   
-        goal = new Crawler(x,y, 20, 20, 'green')
-        goal.render()
+        goal = new Crawler(x,y, 20, 20)
+        goal.render(ctx, goalIMG)
     } else {
         createGoal()
     }
@@ -150,9 +155,10 @@ const createMobs = () => {
         let y = randomY()
 
         if (isValidMove(x, y) && x !== hero.x && y !== hero.y && x !== goal.x && y !== goal.y) {
-            let newMob = new Crawler(x, y, 20, 20, 'red')
-            newMob.render()
+            let newMob = new Crawler(x, y, 20, 20)
+            newMob.render(ctx, mobIMG)
             mobNames.push(newMob)
+            console.log(mobNames)
             numberOfMobs++
         }
     }
@@ -266,13 +272,19 @@ function handleKeyPressEvent(e) {
             movement.innerText = `x: ${hero.x} y: ${hero.y}`
             ctx.fillStyle = "rgba(250, 250, 250, 0)"
             renderMaze(ctx, mazeArray, path, walls)
-            hero.render()
+            hero.render(ctx, heroIMG)
         }
 
         // needed to repaint the goal since the map redraw drew over it
     if ((hero.x <= goal.x + 20 && hero.x >= goal.x -20) && (hero.y <= goal.y + 20 && hero.y >= goal.y - 20 )) {
-        goal.render()
+        goal.render(ctx, goalIMG)
     }
+    
+    for (let i = 0 ; i < mobNames.length ; i++) {
+    if ((hero.x <= mobNames[i].x + 20 && hero.x >= mobNames[i].x -20) && (hero.y <= mobNames[i].y + 20 && hero.y >= mobNames[i].y - 20 )) {
+        mobNames[i].render(ctx, mobIMG)
+    }
+}
 
         // moved the collision detection in here. it makes it so that the user can't run past an object
     if (isColliding(hero, goal)) {
