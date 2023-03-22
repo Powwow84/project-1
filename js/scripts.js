@@ -37,21 +37,29 @@ const darkness =() => {
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 }
 
+const path = new Image();
+path.src = 'https://i.imgur.com/8HAkEms.png';
 
-// darkness(ctx, mazeArray)
-const renderMaze = (ctx, mazeArray) => {
-    const heroTileX = hero.x / 20
-    const heroTileY = hero.y / 20
+const walls = new Image();
+walls.src = 'https://i.imgur.com/YclNGjT.png';
+
+const renderMaze = (ctx, mazeArray, tileImage, tileImage2) => {
+    const heroTileX = hero.x / 20;
+    const heroTileY = hero.y / 20;
 
     for (let i = heroTileY - 1; i <= heroTileY + 1; i++) {
         for (let j = heroTileX - 1; j <= heroTileX + 1; j++) {
             if (i >= 0 && i < mazeArray.length && j >= 0 && j < mazeArray[0].length) {
-                ctx.fillStyle = mazeArray[i][j] === 0 ? "black" : "grey"
-                ctx.fillRect(j * 20, i * 20, 20, 20)
+                if (mazeArray[i][j] === 0) {
+                    ctx.drawImage(tileImage, j * 20, i * 20, 20, 20);
+                } else if (mazeArray[i][j] === 1) {
+                    ctx.drawImage(tileImage2, j * 20, i * 20, 20, 20);
+                }
             }
         }
     }
 };
+
 
 // game objects prototype, this came from the lesson for canvas from GA instructor Bailey
 
@@ -151,6 +159,7 @@ const createMobs = () => {
 }
 
 
+
 // On click starts timer + and decrements from the timeleft. then it checks for time less than 0
 let timeLeft = 61
 let timerId = ''
@@ -174,9 +183,9 @@ const reset = () => {
     timeLeft = 61
     timer()  
     //recalling all these renders make it so on click it clears all the old stuff off the map
-    createGoal()
     createMobs()
     darkness()
+    createGoal()
     createHero()
     infoScreen.style.zIndex = "0"
     deathScreen.style.zIndex = "0"
@@ -256,7 +265,7 @@ function handleKeyPressEvent(e) {
             hero.y = newY
             movement.innerText = `x: ${hero.x} y: ${hero.y}`
             ctx.fillStyle = "rgba(250, 250, 250, 0)"
-            renderMaze(ctx, mazeArray, hero)
+            renderMaze(ctx, mazeArray, path, walls)
             hero.render()
         }
 
