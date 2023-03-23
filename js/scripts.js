@@ -8,6 +8,7 @@ const deathScreen = document.querySelector('#deathScreen')
 const pButton = document.querySelector('#pButton')
 const replayWin = document.querySelector('#replaywin')
 const replayDead = document.querySelector('#replayDead')
+const start = document.querySelector('#start')
 const canvas = document.querySelector('#canvas')
 const ctx = canvas.getContext("2d")
 const battle = document.querySelector('#battle')
@@ -44,11 +45,6 @@ const darkness =() => {
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 }
 
-const path = new Image();
-path.src = 'https://i.imgur.com/8HAkEms.png';
-
-const walls = new Image();
-walls.src = 'https://i.imgur.com/m3CVsAx.png';
 
 const renderMaze = (ctx, mazeArray, tileImage, tileImage2) => {
     const heroTileX = hero.x / 20;
@@ -83,27 +79,7 @@ class Crawler {
     render(ctx,img) {
         ctx.drawImage(img,this.x, this.y, this.width, this.height)
     }
-    
-    renderLeft(ctx,img) {
-        ctx.drawImage(img,this.x, this.y, this.width, this.height)
-    }
 }
-
-const heroIMG = new Image();
-heroIMG.src = 'https://i.imgur.com/Y0UlOnT.png';
-
-const heroIMGLeft = new Image();
-heroIMGLeft.src = 'https://i.imgur.com/TZ5muth.png';
-
-const heroIMGDown = new Image();
-heroIMGDown.src = 'https://i.imgur.com/gFebRYQ.png';
-
-const goalIMG = new Image();
-goalIMG.src = 'https://i.imgur.com/cWinJno.png'
-
-const mobIMG = new Image();
-mobIMG.src = 'https://i.imgur.com/oWcfvjJ.png';
-
 
 // FUNCTIONS*********
 
@@ -179,6 +155,22 @@ const createMobs = () => {
     }
 }
 
+const createPowerUps = () => {
+    let numberOfPowerUps = 0
+    powerUps = [] //this is to clear the array of mobs before running again on replay
+    while (numberOfPowerUps < 15) {
+        let x = randomX()
+        let y = randomY()
+
+        if (isValidMove(x, y) && x !== hero.x && y !== hero.y && x !== goal.x && y !== goal.y) {
+            let newPowerUp = new Crawler(x, y, 20, 20)
+            newPowerUp.render(ctx, powerUpIMG)
+            powerUps.push(newPowerUp)
+            numberOfPowerUps++
+        }
+    }
+}
+
 
 
 // On click starts timer + and decrements from the timeleft. then it checks for time less than 0
@@ -205,8 +197,9 @@ const reset = () => {
     timeLeft = 61
     timer()  
     //recalling all these renders make it so on click it clears all the old stuff off the map
-    createMobs()
     darkness()
+    createMobs()
+    createPowerUps()
     createGoal()
     createHero()
     resetAudio(themeMusic)
@@ -220,11 +213,15 @@ const reset = () => {
 // buttons for title/win/lose screens
 
 pButton.addEventListener('click', function(){
+    escapeMusic.play()
     info.style.zIndex = "3"
-    setTimeout(() =>{
-        info.style.zIndex = "0"
-    }, 2000)
+    infoScreen.style.zIndex = "0"
     pButton.disabled = true
+})
+
+start.addEventListener("click", function(){
+    info.style.zIndex = "0"
+    start.disabled = true
     reset()
 })
 
@@ -309,10 +306,25 @@ function handleKeyPressEvent(e) {
     }
     
     for (let i = 0 ; i < mobNames.length ; i++) {
-    if ((hero.x <= mobNames[i].x + 20 && hero.x >= mobNames[i].x -20) && (hero.y <= mobNames[i].y + 20 && hero.y >= mobNames[i].y - 20 )) {
+        if ((hero.x <= mobNames[i].x + 20 && hero.x >= mobNames[i].x -20) && (hero.y <= mobNames[i].y + 20 && hero.y >= mobNames[i].y - 20 )) {
         mobNames[i].render(ctx, mobIMG)
+        }
     }
-}
+
+    for (let i = 0 ; i < powerUps.length ; i++) {
+        if ((hero.x <= powerUps[i].x + 20 && hero.x >= powerUps[i].x -20) && (hero.y <= powerUps[i].y + 20 && hero.y >= powerUps[i].y - 20 )) {
+        powerUps[i].render(ctx, powerUpIMG)
+        }
+    }
+        // checks to see if a power up and the hero are occupying the same space
+    
+    for (let i = 0 ; i < powerUps.length ; i++ ) {
+        if(isColliding(hero, powerUps[i])) {
+            clock.innerText = "+10 seconds"
+            timeLeft += 10
+            powerUps[i] = (10,10, 10,10, "black")
+        }
+    }
 
         // moved the collision detection in here. it makes it so that the user can't run past an object
     if (isColliding(hero, goal)) {

@@ -79,6 +79,7 @@ const mazeArray = [
 
 
 let mobNames = []
+let powerUps = []
 
 const runCaught = 'The creature caught up to you'
 const runEscape = 'You outran the creature!'
@@ -96,6 +97,32 @@ const fightWinBG = "url('https://i.imgur.com/pGBcgW7.jpg')"
 const hideHiddenBG = "url('https://i.imgur.com/8hCXjZi.jpg')"
 const hideFoundBG = "url('https://i.imgur.com/7GMyxey.jpg')"
 
+// Images for the map and the game objects
+
+const path = new Image();
+path.src = 'https://i.imgur.com/8HAkEms.png';
+
+const walls = new Image();
+walls.src = 'https://i.imgur.com/m3CVsAx.png';
+
+const heroIMG = new Image();
+heroIMG.src = 'https://i.imgur.com/Y0UlOnT.png';
+
+const heroIMGLeft = new Image();
+heroIMGLeft.src = 'https://i.imgur.com/TZ5muth.png';
+
+const heroIMGDown = new Image();
+heroIMGDown.src = 'https://i.imgur.com/gFebRYQ.png';
+
+const goalIMG = new Image();
+goalIMG.src = 'https://i.imgur.com/cWinJno.png'
+
+const mobIMG = new Image();
+mobIMG.src = 'https://i.imgur.com/oWcfvjJ.png';
+
+const powerUpIMG = new Image();
+powerUpIMG.src = 'https://i.imgur.com/mQGJk2R.png'
+
 
 // Sound files
 
@@ -103,7 +130,7 @@ const themeMusic = new Audio('./music/tunetank.com_5196_secrets-of-the-house-on-
 
 const minigameMusic = new Audio('./music/tunetank.com_5614_countdown-horror-trailer_by_audiotime.mp3')
 
-const escapeMusic = new Audio('./music/tunetank.com_5212_castle-in-the-village_by_rage-sound-02.mp3')
+const escapeMusic = new Audio('./music/tunetank.com_5212_castle-in-the-village_by_rage-sound-02-02.mp3')
 
 const laughSFX = new Audio('./music/133674__klankbeeld__horror-laugh-original-132802__nanakisan__evil-laugh-08.wav')
 

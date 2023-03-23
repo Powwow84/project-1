@@ -41,19 +41,19 @@ main {
 .info {
     display: flex;
     flex-direction: column;
-    z-index: 4;
+    z-index: 0;
     color: white;
     text-align: center;
     font-size: 2rem;
+   
 }
 
 .movement_info {
-    display: flex;
+  display: flex;
 }
 
 .info p {
     padding: 0 2rem;
-    border: white;
 }
 
 .win {
@@ -138,6 +138,7 @@ main {
 }
 
 .infoStart {
-    justify-self: flex-start;
-    border: solid white;
+    position: relative;
+    top: 10rem;
+    
 }
