@@ -197,9 +197,9 @@ const reset = () => {
     timeLeft = 61
     timer()  
     //recalling all these renders make it so on click it clears all the old stuff off the map
-    darkness()
     createMobs()
     createPowerUps()
+    darkness()
     createGoal()
     createHero()
     resetAudio(themeMusic)
