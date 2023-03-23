@@ -64,17 +64,18 @@ The approach taken was to use a combination of HTML DOM manipulation and Canvas.
 ---------------------------------------------------------------------------
 ## Post Project Thoughts
 
-- Some things I thought would be hard were actuiallt pretty simple. While others were very hard because there were no examples that were easily found on the web
-- Once the major pieces and functions were done the rest of the bells and whistles were quick and easy.
-- Next time its probably best to start in this order bones > creation hard functions that are nessesary components > bells and whistles.
-- One thing i'll have to really look at next time is the issue with objects psawning on top of each other. But its not a issue for now.
+* Some things I thought would be hard were actuiallt pretty simple. While others were very hard because there were no examples that were easily found on the web
+* Once the major pieces and functions were done the rest of the bells and whistles were quick and easy.
+* Next time its probably best to start in this order bones > creation hard functions that are nessesary components > bells and whistles.
+* One thing i'll have to really look at next time is the issue with objects psawning on top of each other. But its not a issue for now.
 
 ---------------------------------------------------------------------------
 ## Citations
 
-- The basic parts of the movement function "handleKeyPressEvent(e)" came from General Assembly SEI instructor Weston Bailey in a lesson he gave on canvas.
-- The object prototype for "Crawlers" also game from General Assembly SEI instructor Weston Bailey in a lesson he gave on canvas.
-- The idea for the loops used to create the map came from this article https://bytefish.medium.com/how-to-render-a-maze-in-canvas-9aeb0fdc0514, author named as bytefish 
+* The basic parts of the movement function "handleKeyPressEvent(e)" came from General Assembly SEI instructor Weston Bailey in a lesson he gave on canvas.
+* The object prototype for "Crawlers" also game from General Assembly SEI instructor Weston Bailey in a lesson he gave on canvas.
+* The idea for the loops used to create the map came from this article https://bytefish.medium.com/how-to-render-a-maze-in-canvas-9aeb0fdc0514, author named as bytefish 
+* music and sfx came from tunetank.com and freesound.com
 
 
 
