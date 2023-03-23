@@ -6,6 +6,10 @@ It was a crazy night. You had way too much to drink. You wake not knowing where 
 
 "Welcome to my game. Its a game of life or death. If you win, you live.  If you lose, you die. All you have to do to win is find the exit. Be careful... I left you some surprises. Hurry now, the clock is ticking."
 
+## Click here to play the game
+
+https://powwow84.github.io/project-1/
+
 ------------------------------------------------------------------------
 ## Synopsis
 
