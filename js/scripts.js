@@ -117,7 +117,7 @@ const createHero = () => {
     let y = randomY()
     if(isValidMove(x,y)) {
         hero = new Crawler(x,y, 20, 20)
-        hero.render(ctx,heroIMG)
+        hero.render(ctx,heroStartIMG)
     } else {
         createHero()
     }

@@ -108,6 +108,9 @@ walls.src = 'https://i.imgur.com/m3CVsAx.png';
 const heroIMG = new Image();
 heroIMG.src = 'https://i.imgur.com/Y0UlOnT.png';
 
+const heroStartIMG = new Image();
+heroStartIMG.src = 'https://i.imgur.com/LeIKtRv.png';
+
 const heroIMGLeft = new Image();
 heroIMGLeft.src = 'https://i.imgur.com/TZ5muth.png';
 
