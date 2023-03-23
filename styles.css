@@ -48,6 +48,13 @@ main {
    
 }
 
+.container {
+    border: .15rem solid white;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
 .movement_info {
   display: flex;
 }
@@ -64,6 +71,7 @@ main {
 }
 
 .game_images img {
+    padding: 0 1rem;
     height: 2.5rem;
     width: 2.5rem;
 }
