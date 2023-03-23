@@ -184,8 +184,8 @@ main {
 
 .difficultySelector {
     margin: .5rem 0;
-    width: rem;
-    
+    border: inset;
+
 }
 
 .clock {
