@@ -7,8 +7,13 @@
         <script src="./js/scripts.js" defer></script>
     </head>
     <header>
-        <div>
+        <div class="topBox">
             <p class="clock" id="clock">You have 60 second</p>
+            <select id="difficultySelector" class="difficultySelector">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select> 
         </div>
         <!-- header will be present at all times -->
     </header>
@@ -49,11 +54,6 @@
             </div> 
             <div class="difficulty">
             <button class="infoStart" id="start">START</button>
-            <select id="difficultySelector" class="difficultySelector">
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
-            </select> 
             </div>      
         </section>
 

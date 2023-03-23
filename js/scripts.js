@@ -230,6 +230,7 @@ const reset = () => {
     infoScreen.style.zIndex = "0"
     deathScreen.style.zIndex = "0"
     winScreen.style.zIndex = "0"
+    difficultySelector.disabled = true
 }
 
 // buttons for title/win/lose screens
@@ -372,6 +373,7 @@ function handleKeyPressEvent(e) {
             replayWin.disabled = false
             winScreen.style.zIndex = "3"
             clock.innerHTML = `Your score is ${timeLeft}`
+            difficultySelector.disabled = false
          } else { for (let i = 0; i < mobNames.length; i++) {
                 if (isColliding(hero, mobNames[i])) {
                     clearInterval(timerId)
@@ -419,6 +421,7 @@ const moveInterval = (sentence, bgIMG) => {
 const yourDead = () => {
     resetAudio(minigameMusic)
     laughSFX.play()
+    difficultySelector.disabled = false
     setTimeout(() =>{
         battle.style.zIndex = '0'
         themeMusic.play()
@@ -438,7 +441,7 @@ const survived = () => {
         themeMusic.play()
         timer()
         battleUP = false
-        replayWin.disabled = false
+        replayWin.disabled = true
     }, 4000)
 }
 
