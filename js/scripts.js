@@ -1,5 +1,4 @@
 // selectors
-const movement = document.querySelector('#movement')
 const clock = document.querySelector('#clock')
 const infoScreen = document.querySelector('#infoScreen')
 const info =document.querySelector('#info')
@@ -174,7 +173,7 @@ const createPowerUps = () => {
 
 
 
-// On click starts timer + and decrements from the timeleft. then it checks for time less than 0
+// On click starts timer + and decrements from the timeleft. then it checks for time less than 0. There is some styling added to this function to add effect for the game and to disable and enable some buttons/selectors/start and stop music/ etc
 let timeLeft = 61
 let timerId = ''
 const timer = () => {
@@ -203,7 +202,7 @@ const reset = () => {
     clearInterval(timerId)
     timeLeft = 61
     timer()  
-    //recalling all these renders make it so on click it clears all the old stuff off the map. the rendering order is different depending on difficulty
+    //recalling all these functions make it so on click it clears all the old stuff off the map. the rendering order is different depending on difficulty
 
     if(difficultySelector.value === "easy") {
     createMobs()
@@ -274,7 +273,6 @@ let battleUP = false
 function handleKeyPressEvent(e) {
     const speed = 20;
     let prevX = hero.x
-    let prevY = hero.y
     let newX = hero.x
     let newY = hero.y
 
@@ -307,9 +305,8 @@ function handleKeyPressEvent(e) {
             break;
     }
 
-        // this function is needed to check to see for boundaries. Added a bolean to check for the battle slide so that you cantr move if the slide is up
+        // this function is needed to check to see for boundaries. Added a bolean to check for the battle slide so that you cant move if the slide is up
     if (isValidMove(newX, newY) && battleUP === false)  {
-        // darkness()
         hero.x = newX
         hero.y = newY
         ctx.fillStyle = "rgba(250, 250, 250, 0)"
@@ -365,7 +362,7 @@ function handleKeyPressEvent(e) {
         }
     }
 
-        // moved the collision detection in here. it makes it so that the user can't run past an object
+        // moved the collision detection in here. it makes it so that the user can't run past an object. For the hero coliding with the goal or another crawler I needed to add game functions and triggers here so that the settings of the game would function correctly based on the scenarios
     if (isColliding(hero, goal)) {
             resetAudio(themeMusic)
             surviveBattleSFX.play()
