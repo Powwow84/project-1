@@ -30,6 +30,21 @@ hide.disabled = true
 canvas.setAttribute('height', getComputedStyle(canvas).height)
 canvas.setAttribute('width', getComputedStyle(canvas).width)
 
+// Starts the game music on load
+
+const themeMusic = new Audio('./music/tunetank.com_5196_secrets-of-the-house-on-the-hill_by_rage-sound.mp3') 
+
+const minigameMusic = new Audio('./music/tunetank.com_5614_countdown-horror-trailer_by_audiotime.mp3')
+
+const laughSFX = new Audio('./music/133674__klankbeeld__horror-laugh-original-132802__nanakisan__evil-laugh-08.wav')
+
+const surviveBattleSFX = new Audio('./music/556959__sami_hiltunen__horror-sfx-03.wav')
+
+const resetAudio = (music) => {
+    music.pause()
+    music.currentTime = 0
+}
+
 // render map function, this generates the maze according to the 2d Array added as a argument
 
 const darkness =() => {
@@ -86,7 +101,7 @@ const goalIMG = new Image();
 goalIMG.src = 'https://i.imgur.com/cWinJno.png'
 
 const mobIMG = new Image();
-mobIMG.src = 'https://i.imgur.com/6P5uHrj.png';
+mobIMG.src = 'https://i.imgur.com/oWcfvjJ.png';
 
 
 // FUNCTIONS*********
@@ -158,7 +173,6 @@ const createMobs = () => {
             let newMob = new Crawler(x, y, 20, 20)
             newMob.render(ctx, mobIMG)
             mobNames.push(newMob)
-            console.log(mobNames)
             numberOfMobs++
         }
     }
@@ -174,6 +188,7 @@ const timer = () => {
         timeLeft --
         clock.innerText = `You have ${timeLeft} seconds`
         if(timeLeft < 0) {
+            laughSFX.play()
             deathScreen.style.zIndex = '3'
             clock.innerHTML = "You're dead"
             clearInterval(timerId)
@@ -193,6 +208,8 @@ const reset = () => {
     darkness()
     createGoal()
     createHero()
+    resetAudio(themeMusic)
+    themeMusic.play()
     infoScreen.style.zIndex = "0"
     deathScreen.style.zIndex = "0"
     winScreen.style.zIndex = "0"
@@ -296,6 +313,8 @@ function handleKeyPressEvent(e) {
                     clearInterval(timerId)
                     clearBattle()
                     battle.style.zIndex = "3"
+                    resetAudio(themeMusic)
+                    minigameMusic.play()
                     enableButtons()
                     battleUP = true
                     mobNames[i] = (10,10, 10,10, "black")
@@ -334,23 +353,29 @@ const moveInterval = (sentence, bgIMG) => {
 }
 
 const yourDead = () => {
+    resetAudio(minigameMusic)
+    laughSFX.play()
     setTimeout(() =>{
         battle.style.zIndex = '0'
+        themeMusic.play()
         deathScreen.style.zIndex = '3'
         clock.innerHTML = "You're dead"
         clearInterval(timerId)
         battleUP = false
         replayDead.disabled = false
-    }, 3200)
+    }, 4000)
 }
 
-const survived = () => {
+const survived = () => { 
+    resetAudio(minigameMusic)
+    surviveBattleSFX.play()
     setTimeout(()=>{
         battle.style.zIndex = '0'
+        themeMusic.play()
         timer()
         battleUP = false
         replayWin.disabled = false
-    }, 3200)
+    }, 4000)
 }
 
 // User selector options for the minigame
@@ -358,6 +383,7 @@ const survived = () => {
 run.addEventListener('click', function() {
     disableButtons()
     battleUpdate.innerText = "You decided run"
+    setTimeout(() => {
     computerChoice = Math.floor(Math.random() * 3) 
     if(computerChoice === 0) {
         moveInterval(runCaught, runCaughtBG)
@@ -366,13 +392,14 @@ run.addEventListener('click', function() {
             moveInterval(runEscape, runEscapeBG)
             survived() 
     }
-
+}, 1500)
 })
 
 fight.addEventListener('click', function(){
     disableButtons()
     battleUpdate.innerText = "You pickup a rock to fight the creature"
-    computerChoice = Math.floor(Math.random() * 2) 
+    setTimeout(() => {
+    computerChoice = Math.floor(Math.random() * 1) 
     if(computerChoice === 0) {
         moveInterval(fightLost, fightLostBG)
         yourDead()
@@ -381,11 +408,13 @@ fight.addEventListener('click', function(){
         timeLeft += 5
         survived()
     }
+}, 1500)
 })
 
 hide.addEventListener('click', function(){
     disableButtons()
     battleUpdate.innerText = "You quickly hide"
+    setTimeout(() => {
     computerChoice = Math.floor(Math.random() * 4) 
     if(computerChoice === 0) {
         moveInterval(hideFound, hideFoundBG)
@@ -395,5 +424,5 @@ hide.addEventListener('click', function(){
         timeLeft -= 5
         survived()
     }
-
+}, 1500)
 })
