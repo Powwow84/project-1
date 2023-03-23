@@ -36,6 +36,8 @@ const themeMusic = new Audio('./music/tunetank.com_5196_secrets-of-the-house-on-
 
 const minigameMusic = new Audio('./music/tunetank.com_5614_countdown-horror-trailer_by_audiotime.mp3')
 
+const escapeMusic = new Audio('./music/tunetank.com_5212_castle-in-the-village_by_rage-sound-02.mp3')
+
 const laughSFX = new Audio('./music/133674__klankbeeld__horror-laugh-original-132802__nanakisan__evil-laugh-08.wav')
 
 const surviveBattleSFX = new Audio('./music/556959__sami_hiltunen__horror-sfx-03.wav')
@@ -209,6 +211,7 @@ const reset = () => {
     createGoal()
     createHero()
     resetAudio(themeMusic)
+    resetAudio(escapeMusic)
     themeMusic.play()
     infoScreen.style.zIndex = "0"
     deathScreen.style.zIndex = "0"
@@ -305,6 +308,9 @@ function handleKeyPressEvent(e) {
 
         // moved the collision detection in here. it makes it so that the user can't run past an object
     if (isColliding(hero, goal)) {
+            resetAudio(themeMusic)
+            surviveBattleSFX.play()
+            escapeMusic.play()
             clearInterval(timerId)
             winScreen.style.zIndex = "3"
             clock.innerHTML = `Your score is ${timeLeft}`
@@ -399,7 +405,7 @@ fight.addEventListener('click', function(){
     disableButtons()
     battleUpdate.innerText = "You pickup a rock to fight the creature"
     setTimeout(() => {
-    computerChoice = Math.floor(Math.random() * 1) 
+    computerChoice = Math.floor(Math.random() * 2) 
     if(computerChoice === 0) {
         moveInterval(fightLost, fightLostBG)
         yourDead()
