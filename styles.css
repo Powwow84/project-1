@@ -34,14 +34,14 @@ main {
 }
 .title {
     z-index: 2;
-    background-image: url(https://i.imgur.com/4sd8FpC.jpg);
+    background-image: url(https://i.imgur.com/4K3rITe.jpg);
     background-size: cover;
 }
 
 .info {
     display: flex;
     flex-direction: column;
-    z-index: 0;
+    z-index: 4;
     color: white;
     text-align: center;
     font-size: 2rem;
@@ -53,6 +53,7 @@ main {
 
 .info p {
     padding: 0 2rem;
+    border: white;
 }
 
 .win {
@@ -79,8 +80,9 @@ main {
     height: 45rem;
     width: 80rem;  
     color: white;
-    background-image: url(https://i.imgur.com/0LYXRge.jpg);
+    background-image: url(https://i.imgur.com/KrcbJ3h.jpg);
     background-size: cover;  
+    background-position-x: 53.5%;
 }
 
 .battleText {
@@ -113,7 +115,8 @@ main {
 
 .play,
 .playDead,
-.playWin {
+.playWin,
+.infoStart {
     position:absolute;
     height: 2rem;
     width: 10rem;
@@ -121,8 +124,8 @@ main {
 }
 
 .play {
-    margin-top: 15rem;
-    margin-left: 7rem;
+    margin-top: 10rem;
+    margin-left: 1rem;
 }
 
 .playDead {
@@ -132,4 +135,9 @@ main {
 
 .playWin {
     margin-top: 3rem;
+}
+
+.infoStart {
+    justify-self: flex-start;
+    border: solid white;
 }

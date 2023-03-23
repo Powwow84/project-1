@@ -92,8 +92,19 @@ const fightWin = 'It\'s dead, and you\'ve gained 5 seconds'
 const runCaughtBG = "url('https://i.imgur.com/fDv5aAK.jpg')"
 const runEscapeBG = "url('https://i.imgur.com/TuABPjF.jpg')"
 const fightLostBG = "url('https://i.imgur.com/nCerJzX.jpg')"
-const fightWinBG = "url('https://i.imgur.com/K3BLtfZ.jpg')"
+const fightWinBG = "url('https://i.imgur.com/pGBcgW7.jpg')"
 const hideHiddenBG = "url('https://i.imgur.com/8hCXjZi.jpg')"
 const hideFoundBG = "url('https://i.imgur.com/7GMyxey.jpg')"
 
 
+// Sound files
+
+const themeMusic = new Audio('./music/tunetank.com_5196_secrets-of-the-house-on-the-hill_by_rage-sound.mp3') 
+
+const minigameMusic = new Audio('./music/tunetank.com_5614_countdown-horror-trailer_by_audiotime.mp3')
+
+const escapeMusic = new Audio('./music/tunetank.com_5212_castle-in-the-village_by_rage-sound-02.mp3')
+
+const laughSFX = new Audio('./music/133674__klankbeeld__horror-laugh-original-132802__nanakisan__evil-laugh-08.wav')
+
+const surviveBattleSFX = new Audio('./music/556959__sami_hiltunen__horror-sfx-03.wav')

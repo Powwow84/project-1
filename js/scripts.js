@@ -30,17 +30,7 @@ hide.disabled = true
 canvas.setAttribute('height', getComputedStyle(canvas).height)
 canvas.setAttribute('width', getComputedStyle(canvas).width)
 
-// Starts the game music on load
-
-const themeMusic = new Audio('./music/tunetank.com_5196_secrets-of-the-house-on-the-hill_by_rage-sound.mp3') 
-
-const minigameMusic = new Audio('./music/tunetank.com_5614_countdown-horror-trailer_by_audiotime.mp3')
-
-const escapeMusic = new Audio('./music/tunetank.com_5212_castle-in-the-village_by_rage-sound-02.mp3')
-
-const laughSFX = new Audio('./music/133674__klankbeeld__horror-laugh-original-132802__nanakisan__evil-laugh-08.wav')
-
-const surviveBattleSFX = new Audio('./music/556959__sami_hiltunen__horror-sfx-03.wav')
+// this resets the audio tracks to start from the beginning
 
 const resetAudio = (music) => {
     music.pause()
@@ -58,7 +48,7 @@ const path = new Image();
 path.src = 'https://i.imgur.com/8HAkEms.png';
 
 const walls = new Image();
-walls.src = 'https://i.imgur.com/nmKjg8n.png';
+walls.src = 'https://i.imgur.com/m3CVsAx.png';
 
 const renderMaze = (ctx, mazeArray, tileImage, tileImage2) => {
     const heroTileX = hero.x / 20;
@@ -92,12 +82,21 @@ class Crawler {
     
     render(ctx,img) {
         ctx.drawImage(img,this.x, this.y, this.width, this.height)
-    }  
+    }
+    
+    renderLeft(ctx,img) {
+        ctx.drawImage(img,this.x, this.y, this.width, this.height)
+    }
 }
 
 const heroIMG = new Image();
-heroIMG.src = 'https://i.imgur.com/EiFYhcu.png';
+heroIMG.src = 'https://i.imgur.com/Y0UlOnT.png';
 
+const heroIMGLeft = new Image();
+heroIMGLeft.src = 'https://i.imgur.com/TZ5muth.png';
+
+const heroIMGDown = new Image();
+heroIMGDown.src = 'https://i.imgur.com/gFebRYQ.png';
 
 const goalIMG = new Image();
 goalIMG.src = 'https://i.imgur.com/cWinJno.png'
@@ -253,6 +252,8 @@ let battleUP = false
 
 function handleKeyPressEvent(e) {
     const speed = 20;
+    let prevX = hero.x
+    let prevY = hero.y
     let newX = hero.x
     let newY = hero.y
 
@@ -287,12 +288,19 @@ function handleKeyPressEvent(e) {
 
         // this function is needed to check to see for boundaries. Added a bolean to check for the battle slide so that you cantr move if the slide is up
     if (isValidMove(newX, newY) && battleUP === false)  {
-            hero.x = newX
-            hero.y = newY
-            movement.innerText = `x: ${hero.x} y: ${hero.y}`
-            ctx.fillStyle = "rgba(250, 250, 250, 0)"
-            renderMaze(ctx, mazeArray, path, walls)
-            hero.render(ctx, heroIMG)
+        hero.x = newX
+        hero.y = newY
+        movement.innerText = `x: ${hero.x} y: ${hero.y}`
+        ctx.fillStyle = "rgba(250, 250, 250, 0)"
+        renderMaze(ctx, mazeArray, path, walls)
+        if (prevX < newX) {
+        hero.render(ctx, heroIMG)
+        } else if (prevX > newX) {
+            hero.render(ctx, heroIMGLeft)
+        } else {
+            hero.render(ctx, heroIMGDown)
+        }
+        
         }
 
         // needed to repaint the goal since the map redraw drew over it
@@ -312,6 +320,7 @@ function handleKeyPressEvent(e) {
             surviveBattleSFX.play()
             escapeMusic.play()
             clearInterval(timerId)
+            replayWin.disabled = false
             winScreen.style.zIndex = "3"
             clock.innerHTML = `Your score is ${timeLeft}`
          } else { for (let i = 0; i < mobNames.length; i++) {
@@ -337,7 +346,7 @@ function handleKeyPressEvent(e) {
 
 const clearBattle = () => {
     battleUpdate.innerText = 'There is a creature in your path. What do you want to do?'
-    battle.style.backgroundImage =  "url('https://i.imgur.com/0LYXRge.jpg')"
+    battle.style.backgroundImage =  "url('https://i.imgur.com/KrcbJ3h.jpg')"
 }
 
 const enableButtons = () => {
