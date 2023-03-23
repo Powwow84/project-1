@@ -165,3 +165,9 @@ main {
     top: 2rem;
     
 }
+
+.clock {
+    border: inset;
+    padding: .25rem 1rem;
+    font-size: 1.2rem;
+}

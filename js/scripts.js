@@ -179,13 +179,16 @@ let timerId = ''
 const timer = () => {
     timerId = setInterval(function(){
         timeLeft --
+        clock.style.backgroundColor = 'white'
         clock.innerText = `You have ${timeLeft} seconds`
         if(timeLeft < 0) {
             laughSFX.play()
             deathScreen.style.zIndex = '3'
-            clock.innerHTML = "You're dead"
+            clock.innerHTML = "You ran out of time"
             clearInterval(timerId)
             replayDead.disabled = false   
+        } else if (timeLeft < 10) {
+            clock.style.backgroundColor = 'red'
         }
     },1000)
 }
@@ -197,9 +200,9 @@ const reset = () => {
     timeLeft = 61
     timer()  
     //recalling all these renders make it so on click it clears all the old stuff off the map
+    darkness()
     createMobs()
     createPowerUps()
-    darkness()
     createGoal()
     createHero()
     resetAudio(themeMusic)
@@ -208,6 +211,7 @@ const reset = () => {
     infoScreen.style.zIndex = "0"
     deathScreen.style.zIndex = "0"
     winScreen.style.zIndex = "0"
+    clock.style.backgroundColor = 'white'
 }
 
 // buttons for title/win/lose screens
@@ -285,9 +289,9 @@ function handleKeyPressEvent(e) {
 
         // this function is needed to check to see for boundaries. Added a bolean to check for the battle slide so that you cantr move if the slide is up
     if (isValidMove(newX, newY) && battleUP === false)  {
+        // darkness()
         hero.x = newX
         hero.y = newY
-        movement.innerText = `x: ${hero.x} y: ${hero.y}`
         ctx.fillStyle = "rgba(250, 250, 250, 0)"
         renderMaze(ctx, mazeArray, path, walls)
         if (prevX < newX) {
@@ -305,6 +309,7 @@ function handleKeyPressEvent(e) {
         goal.render(ctx, goalIMG)
     }
     
+    //  repaints the goal and power ups when the hero is within 1 block
     for (let i = 0 ; i < mobNames.length ; i++) {
         if ((hero.x <= mobNames[i].x + 20 && hero.x >= mobNames[i].x -20) && (hero.y <= mobNames[i].y + 20 && hero.y >= mobNames[i].y - 20 )) {
         mobNames[i].render(ctx, mobIMG)
@@ -357,7 +362,7 @@ function handleKeyPressEvent(e) {
 // functions for the minigame
 
 const clearBattle = () => {
-    battleUpdate.innerText = 'There is a creature in your path. What do you want to do?'
+    battleUpdate.innerText = 'There is something in your way. What do you do?'
     battle.style.backgroundImage =  "url('https://i.imgur.com/KrcbJ3h.jpg')"
 }
 
@@ -409,7 +414,7 @@ const survived = () => {
 
 run.addEventListener('click', function() {
     disableButtons()
-    battleUpdate.innerText = "You decided run"
+    battleUpdate.innerText = "You think you can out run it."
     setTimeout(() => {
     computerChoice = Math.floor(Math.random() * 3) 
     if(computerChoice === 0) {
@@ -424,7 +429,7 @@ run.addEventListener('click', function() {
 
 fight.addEventListener('click', function(){
     disableButtons()
-    battleUpdate.innerText = "You pickup a rock to fight the creature"
+    battleUpdate.innerText = "You're not scared, so you decide to fight."
     setTimeout(() => {
     computerChoice = Math.floor(Math.random() * 2) 
     if(computerChoice === 0) {
@@ -440,7 +445,7 @@ fight.addEventListener('click', function(){
 
 hide.addEventListener('click', function(){
     disableButtons()
-    battleUpdate.innerText = "You quickly hide"
+    battleUpdate.innerText = "You dont think you can defeat our outrun it, so you quickly hide."
     setTimeout(() => {
     computerChoice = Math.floor(Math.random() * 4) 
     if(computerChoice === 0) {
