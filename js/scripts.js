@@ -188,7 +188,8 @@ const timer = () => {
             deathScreen.style.zIndex = '3'
             clock.innerHTML = "You ran out of time"
             clearInterval(timerId)
-            replayDead.disabled = false   
+            replayDead.disabled = false
+            difficultySelector.disabled = false   
         } else if (timeLeft < 10) {
             clock.style.backgroundColor = 'red'
             tiktok.play()
