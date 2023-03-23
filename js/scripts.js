@@ -12,6 +12,7 @@ const start = document.querySelector('#start')
 const canvas = document.querySelector('#canvas')
 const ctx = canvas.getContext("2d")
 const battle = document.querySelector('#battle')
+const difficultySelector = document.querySelector('#difficultySelector')
 pButton.disabled = false
 replayDead.disabled = true
 replayWin.disabled = true
@@ -201,12 +202,28 @@ const reset = () => {
     clearInterval(timerId)
     timeLeft = 61
     timer()  
-    //recalling all these renders make it so on click it clears all the old stuff off the map
+    //recalling all these renders make it so on click it clears all the old stuff off the map. the rendering order is different depending on difficulty
+
+    if(difficultySelector.value === "easy") {
     createMobs()
     createPowerUps()
     darkness()
     createGoal()
     createHero()
+    } else if (difficultySelector.value ==="medium") {
+    createMobs()
+    createPowerUps()
+    darkness()
+    createGoal()
+    createHero()
+    } else if (difficultySelector.value ==="hard") {
+    createMobs()
+    createPowerUps()
+    createGoal()
+    darkness()
+    createHero()
+    }
+
     resetAudio(themeMusic)
     resetAudio(escapeMusic)
     themeMusic.play()
@@ -294,7 +311,21 @@ function handleKeyPressEvent(e) {
         hero.x = newX
         hero.y = newY
         ctx.fillStyle = "rgba(250, 250, 250, 0)"
+
+        //this part renders objects based on difficulty setting
+        if(difficultySelector.value === "medium") {
+            ctx.fillStyle = 'black'
+            ctx.fillRect(goal.x, goal.y, 20, 20)
+        } else if (difficultySelector.value ==="hard") {
+            darkness()
+        }
+
+        //renders the maze according to the hero X and Y 
+
         renderMaze(ctx, mazeArray, path, walls)
+
+        //renders the hero based on direction 
+
         if (prevX < newX) {
         hero.render(ctx, heroIMG)
         } else if (prevX > newX) {

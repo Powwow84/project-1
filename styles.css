@@ -68,10 +68,6 @@ main {
     width: 2.5rem;
 }
 
-.game_images p {
-    
-}
-
 
 .info p {
     padding: 0 2rem;
@@ -138,8 +134,7 @@ main {
 
 .play,
 .playDead,
-.playWin,
-.infoStart {
+.playWin {
     position:absolute;
     height: 2rem;
     width: 10rem;
@@ -160,10 +155,13 @@ main {
     margin-top: 3rem;
 }
 
-.infoStart {
-    position: relative;
-    top: 2rem;
-    
+.infoStart,
+.difficultySelector {
+    height: 2rem;
+    width: 10rem;
+    font-size: 1rem;
+    margin: 2rem 1rem;
+    text-align: center;
 }
 
 .clock {
