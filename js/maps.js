@@ -138,3 +138,5 @@ const escapeMusic = new Audio('./music/tunetank.com_5212_castle-in-the-village_b
 const laughSFX = new Audio('./music/133674__klankbeeld__horror-laugh-original-132802__nanakisan__evil-laugh-08.wav')
 
 const surviveBattleSFX = new Audio('./music/556959__sami_hiltunen__horror-sfx-03.wav')
+
+const tiktok = new Audio('./music/661499__het_hckm_ds_huis__mortality-boring-death-dying-clock-tick-tock-klok-tik-tak-incl-20-hertz-sometimes-02-01.mp3')

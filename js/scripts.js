@@ -180,6 +180,7 @@ const timer = () => {
     timerId = setInterval(function(){
         timeLeft --
         clock.style.backgroundColor = 'white'
+        resetAudio(tiktok)
         clock.innerText = `You have ${timeLeft} seconds`
         if(timeLeft < 0) {
             laughSFX.play()
@@ -189,6 +190,7 @@ const timer = () => {
             replayDead.disabled = false   
         } else if (timeLeft < 10) {
             clock.style.backgroundColor = 'red'
+            tiktok.play()
         }
     },1000)
 }
@@ -200,9 +202,9 @@ const reset = () => {
     timeLeft = 61
     timer()  
     //recalling all these renders make it so on click it clears all the old stuff off the map
-    darkness()
     createMobs()
     createPowerUps()
+    darkness()
     createGoal()
     createHero()
     resetAudio(themeMusic)
@@ -211,7 +213,6 @@ const reset = () => {
     infoScreen.style.zIndex = "0"
     deathScreen.style.zIndex = "0"
     winScreen.style.zIndex = "0"
-    clock.style.backgroundColor = 'white'
 }
 
 // buttons for title/win/lose screens
