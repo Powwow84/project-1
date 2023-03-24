@@ -73,10 +73,10 @@ The approach taken was to use a combination of HTML DOM manipulation and Canvas.
 * Next time its probably best to start in this order bones > creation hard functions that are nessesary components > bells and whistles.
 * One thing i'll have to really look at next time is the issue with objects spawning on top of each other. But its not a big issue for now.
 * things learned on this project
-- Drawing images on canvas
-- Using loops to generate a maze in canvas
-- Adding music
-- Strengthened my JS jujitsu by solving problems i've never encountered before
+    - Drawing images on canvas
+    - Using loops to generate a maze in canvas
+    - Adding music
+    - Strengthened my JS jujitsu by solving problems i've never encountered before
 
 ---------------------------------------------------------------------------
 ## Citations
