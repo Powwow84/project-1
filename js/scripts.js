@@ -174,6 +174,7 @@ const createPowerUps = () => {
 
 
 // On click starts timer + and decrements from the timeleft. then it checks for time less than 0. There is some styling added to this function to add effect for the game and to disable and enable some buttons/selectors/start and stop music/ etc
+
 let timeLeft = 61
 let timerId = ''
 const timer = () => {
@@ -184,7 +185,7 @@ const timer = () => {
         clock.innerText = `You have ${timeLeft} seconds`
         if(timeLeft < 0) {
             laughSFX.play()
-            deathScreen.style.zIndex = '3'
+            fadeIN(deathScreen)
             clock.innerHTML = "You ran out of time"
             clearInterval(timerId)
             replayDead.disabled = false
@@ -227,9 +228,9 @@ const reset = () => {
     resetAudio(themeMusic)
     resetAudio(escapeMusic)
     themeMusic.play()
-    infoScreen.style.zIndex = "0"
-    deathScreen.style.zIndex = "0"
-    winScreen.style.zIndex = "0"
+    fadeOut(infoScreen)
+    fadeOut(deathScreen)
+    fadeOut(winScreen)
     difficultySelector.disabled = true
 }
 
@@ -237,13 +238,13 @@ const reset = () => {
 
 pButton.addEventListener('click', function(){
     escapeMusic.play()
-    info.style.zIndex = "3"
-    infoScreen.style.zIndex = "0"
+    fadeIN(info)
+    fadeOut(infoScreen)
     pButton.disabled = true
 })
 
 start.addEventListener("click", function(){
-    info.style.zIndex = "0"
+    fadeOut(info)
     start.disabled = true
     reset()
 })
@@ -369,14 +370,14 @@ function handleKeyPressEvent(e) {
             escapeMusic.play()
             clearInterval(timerId)
             replayWin.disabled = false
-            winScreen.style.zIndex = "3"
+            fadeIN(winScreen)
             clock.innerHTML = `Your score is ${timeLeft}`
             difficultySelector.disabled = false
          } else { for (let i = 0; i < mobNames.length; i++) {
                 if (isColliding(hero, mobNames[i])) {
                     clearInterval(timerId)
                     clearBattle()
-                    battle.style.zIndex = "3"
+                    fadeIN(battle)
                     resetAudio(themeMusic)
                     minigameMusic.play()
                     enableButtons()
@@ -392,6 +393,22 @@ function handleKeyPressEvent(e) {
 
 
 // functions for the minigame
+
+const fadeIN = (slide) => {
+    slide.style.zIndex = '3'
+    slide.style.transition = "opacity 1s ease-in";
+    slide.style.opacity = '1';
+
+}
+
+const fadeOut = (slide) => {
+    slide.style.transition = "opacity 1s ease-out";
+    slide.style.opacity = '0';
+    setTimeout(() =>{ 
+        slide.style.zIndex = '0'
+    },1000)
+    
+}
 
 const clearBattle = () => {
     battleUpdate.innerText = 'There is something in your way. What do you do?'
@@ -421,9 +438,10 @@ const yourDead = () => {
     laughSFX.play()
     difficultySelector.disabled = false
     setTimeout(() =>{
-        battle.style.zIndex = '0'
+        darkness()
+        fadeOut(battle)
         themeMusic.play()
-        deathScreen.style.zIndex = '3'
+        fadeIN(deathScreen)
         clock.innerHTML = "You're dead"
         clearInterval(timerId)
         battleUP = false
@@ -431,17 +449,19 @@ const yourDead = () => {
     }, 4000)
 }
 
+
 const survived = () => { 
     resetAudio(minigameMusic)
     surviveBattleSFX.play()
     setTimeout(()=>{
-        battle.style.zIndex = '0'
+        fadeOut(battle)
         themeMusic.play()
         timer()
         battleUP = false
         replayWin.disabled = true
     }, 4000)
 }
+
 
 // User selector options for the minigame
 
