@@ -20,7 +20,7 @@ main {
     position: relative
 }
 
-/* z index will swit between 0 and 3. canvas is alwaus at index 1 */
+/* z index will switch between 0 and 3. canvas is alwaus at index 1 */
  
 .topBox {
     display: flex;
@@ -122,6 +122,8 @@ main {
     background-size: cover;  
     background-position-x: 53.5%;
 }
+
+
 
 .battleText {
     border: solid white;

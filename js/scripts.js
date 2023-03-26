@@ -183,17 +183,17 @@ const timer = () => {
         clock.style.backgroundColor = 'white'
         resetAudio(tiktok)
         clock.innerText = `You have ${timeLeft} seconds`
-        if(timeLeft < 0) {
-            laughSFX.play()
-            fadeIN(deathScreen)
-            clock.innerHTML = "You ran out of time"
-            clearInterval(timerId)
-            replayDead.disabled = false
-            difficultySelector.disabled = false   
+    if(timeLeft < 0) {
+        laughSFX.play()
+        fadeIN(deathScreen)
+        clock.innerHTML = "You ran out of time"
+        clearInterval(timerId)
+        replayDead.disabled = false
+        difficultySelector.disabled = false   
         } else if (timeLeft < 10) {
             clock.style.backgroundColor = 'red'
             tiktok.play()
-        }
+            }
     },1000)
 }
 
@@ -205,13 +205,7 @@ const reset = () => {
     timer()  
     //recalling all these functions make it so on click it clears all the old stuff off the map. the rendering order is different depending on difficulty
 
-    if(difficultySelector.value === "easy") {
-    createMobs()
-    createPowerUps()
-    darkness()
-    createGoal()
-    createHero()
-    } else if (difficultySelector.value ==="medium") {
+    if(difficultySelector.value === "easy" || difficultySelector.value ==="medium") {
     createMobs()
     createPowerUps()
     darkness()
